@@ -1,0 +1,11 @@
+# 端口配置
+server:
+  port: 8080
+
+spring:
+  # 配置数据库
+  datasource:
+    url: jdbc:mysql://localhost:3306/qbook?serverTimezone=UTC&characterEncoding=utf-8
+    data-username: root
+    data-password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
