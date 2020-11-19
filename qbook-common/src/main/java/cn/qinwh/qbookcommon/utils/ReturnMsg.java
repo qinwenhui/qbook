@@ -45,6 +45,17 @@ public class ReturnMsg<T> implements Serializable {
         this.data = data;
     }
 
+    public static ReturnMsg success(String msg, Object data){
+        return new ReturnMsg(ReturnMsg.SUCCESS, msg, data);
+    }
+
+    public static ReturnMsg fail(String msg, Object data){
+        return new ReturnMsg(ReturnMsg.FAIL, msg, data);
+    }
+
+    public static ReturnMsg waining(String msg, Object data){
+        return new ReturnMsg(ReturnMsg.WAINING, msg, data);
+    }
 
     /**
      * 成功

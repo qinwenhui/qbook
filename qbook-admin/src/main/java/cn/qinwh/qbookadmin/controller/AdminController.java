@@ -17,8 +17,7 @@ public class AdminController {
 
     @GetMapping("/hello")
     public ReturnMsg hello(){
-        ReturnMsg returnMsg = new ReturnMsg(ReturnMsg.SUCCESS, "成功", null);
 
-        return returnMsg;
+        return ReturnMsg.success("hello", null);
     }
 }
