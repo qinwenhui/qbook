@@ -9,3 +9,8 @@ spring:
     data-username: root
     data-password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+logging:
+  config: log4j2.config.xml
+  level:
+    cn.jay.repository: trace
