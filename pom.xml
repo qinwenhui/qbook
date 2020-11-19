@@ -99,10 +99,10 @@
 
     <!-- 直接依赖 -->
     <dependencies>
-        <!-- WEB 模块依赖 -->
+        <!-- spring-boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter</artifactId>
             <!-- 去掉springboot默认logging配置 -->
             <exclusions>
                 <exclusion>
@@ -110,6 +110,11 @@
                     <artifactId>spring-boot-starter-logging</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <!-- WEB 模块依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <!-- 引入log4j2依赖 -->
         <dependency>
