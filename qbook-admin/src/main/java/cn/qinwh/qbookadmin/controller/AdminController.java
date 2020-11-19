@@ -1,4 +1,4 @@
-package cn.qinwh.qbooksystem.controller;
+package cn.qinwh.qbookadmin.controller;
 
 import cn.qinwh.qbookcommon.utils.ReturnMsg;
 import org.springframework.web.bind.annotation.GetMapping;
