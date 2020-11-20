@@ -21,6 +21,9 @@ public class CodeGenerator {
         generator();
     }
 
+    /*
+    ** mybatis逆向生成
+     */
     private static void generator() throws Exception {
         List<String> warnings = new ArrayList<>();
         boolean overwrite = true;

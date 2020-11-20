@@ -1,17 +1,7 @@
 package cn.qinwh.qbooksystem.mapper;
 
 import cn.qinwh.qbooksystem.entity.User;
+import tk.mybatis.mapper.common.Mapper;
 
-public interface UserMapper {
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(User record);
-
-    int insertSelective(User record);
-
-    User selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(User record);
-
-    int updateByPrimaryKey(User record);
+public interface UserMapper extends Mapper<User> {
 }
