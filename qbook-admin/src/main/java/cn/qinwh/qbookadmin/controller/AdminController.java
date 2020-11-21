@@ -1,6 +1,7 @@
 package cn.qinwh.qbookadmin.controller;
 
 import cn.qinwh.qbookcommon.utils.ReturnMsg;
+import cn.qinwh.qbooksystem.annotation.NoLogin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController {
 
     @GetMapping("/hello")
+    @NoLogin
     public ReturnMsg hello(){
 
         return ReturnMsg.success("hello", null);

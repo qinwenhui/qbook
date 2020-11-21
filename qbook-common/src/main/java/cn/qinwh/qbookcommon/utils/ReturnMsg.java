@@ -69,6 +69,10 @@ public class ReturnMsg<T> implements Serializable {
      * 警告
      */
     public static final String WAINING="-2";
+    /**
+     * 权限不足
+     */
+    public static final String ACCESS="403";
 
     public String getCode() {
         return code;
