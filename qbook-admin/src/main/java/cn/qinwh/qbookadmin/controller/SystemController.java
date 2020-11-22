@@ -4,6 +4,7 @@ import cn.qinwh.qbookadmin.bo.MenuBo;
 import cn.qinwh.qbookadmin.bo.PermissionBo;
 import cn.qinwh.qbookadmin.bo.RoleBo;
 import cn.qinwh.qbookcommon.utils.ReturnMsg;
+import cn.qinwh.qbooksystem.annotation.NoLogin;
 import cn.qinwh.qbooksystem.entity.*;
 import cn.qinwh.qbooksystem.service.*;
 import com.github.pagehelper.PageHelper;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/system")
+@NoLogin
 public class SystemController {
 
     @Autowired

@@ -2,6 +2,7 @@ package cn.qinwh.qbookadmin.controller;
 
 import cn.qinwh.qbookadmin.bo.UserBo;
 import cn.qinwh.qbookadmin.service.UserService;
+import cn.qinwh.qbookadmin.vo.MenuVo;
 import cn.qinwh.qbookcommon.utils.CharacterUtils;
 import cn.qinwh.qbookcommon.utils.ReturnMsg;
 import cn.qinwh.qbooksystem.annotation.NoLogin;
@@ -12,7 +13,11 @@ import cn.qinwh.qbooksystem.entity.SysUser;
 import cn.qinwh.qbooksystem.service.SysMenuService;
 import cn.qinwh.qbooksystem.utils.LoginUserUtils;
 import cn.qinwh.qbooksystem.utils.RedisUtils;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.github.pagehelper.PageInfo;
+import lombok.extern.slf4j.Slf4j;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +26,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: qbook
@@ -31,6 +39,7 @@ import java.util.List;
  **/
 @RestController
 @RequestMapping("/admin")
+@Slf4j
 public class AdminController {
 
     @Autowired
@@ -41,7 +50,7 @@ public class AdminController {
     private UserService userService;
 
     /**
-     * 获取菜单列表
+     * 获取菜单列表（没有进行路由格式化之前的原始数据）
      * @return
      */
     @GetMapping("/userMenuList")
@@ -49,6 +58,33 @@ public class AdminController {
         SysUser user = LoginUserUtils.getLoginUser();
         List<SysMenu> menuList = sysMenuService.getUserMenu(user.getId());
         return ReturnMsg.success("获取菜单成功", menuList);
+    }
+
+    /**
+     * 获取菜单列表（针对Vue的路由表设计）
+     * 原始 {url(url需要变成{path, component, name}), meta:{name, icon}}
+     * Vue {path, component, name, meta:{title, icon}}
+     * @return
+     */
+    @GetMapping("/usermenu")
+    @NoLogin
+    public ReturnMsg userMenu(){
+//        SysUser user = LoginUserUtils.getLoginUser();
+//        List<SysMenu> menuList = sysMenuService.getUserMenu(user.getId());
+        List<SysMenu> menuList = sysMenuService.getUserMenu(1);
+        List<MenuVo> menuVoList = new ArrayList<>();
+        for(SysMenu menu: menuList){
+            menuVoList.add(menuToVo(menu));
+        }
+        int i = 0;
+        while(i<menuVoList.size()){
+            boolean isRemove = generateMenu(menuVoList, menuVoList.get(i));
+            //如果有移除，i 不用自增
+            if(!isRemove){
+                i ++;
+            }
+        }
+        return ReturnMsg.success("获取菜单成功", menuVoList);
     }
 
     /**
@@ -86,4 +122,51 @@ public class AdminController {
         RedisUtils.set(token, user, RedisConst.TOKEN_SAVE_TIME);
         return ReturnMsg.success("登录成功", token);
     }
+
+    private boolean generateMenu(List<MenuVo> srcList, MenuVo menu){
+        //返回值：true表示有移除，false表示没有移除，不然会导致遍历漏掉
+        if(menu.getPid() == 0){
+            //该菜单属于顶级菜单
+            return false;
+        }
+        for(MenuVo vo : srcList){
+            if(menu.getPid() == vo.getId()){
+                //说明这个menu菜单是vo菜单的子菜单，放进去
+                vo.addChildren(menu);
+                //从原来的位置移除掉
+                srcList.remove(menu);
+                return true;
+            }else{
+                //深度扫描(递归检测菜单的子菜单的子菜单的子菜单。。。。)
+                generateMenu(vo.getChildren(), menu);
+            }
+        }
+        return false;
+    }
+
+    private MenuVo menuToVo(SysMenu menu){
+        MenuVo vo = new MenuVo();
+        vo.setId(menu.getId());
+        //这个url包含有保存path、component、name的json字符串信息，先直接转为vo
+        String jsonStr = menu.getUrl();
+        try {
+            JSONObject jsonObject = new JSONObject(jsonStr);
+            String path = jsonObject.getString("path");
+            String name = jsonObject.getString("name");
+            String component = jsonObject.getString("component");
+            vo.setPath(path);
+            vo.setName(name);
+            vo.setComponent(component);
+        } catch (JSONException e) {
+            log.error("菜单url json实例化出错:{}", e.getMessage());
+        }
+        Map<String, String> meta = new HashMap<>();
+        meta.put("title", menu.getName());
+        meta.put("icon", menu.getIcon());
+        vo.setMeta(meta);
+        vo.setPid(menu.getPid());
+        vo.setSort(menu.getSort());
+        return vo;
+    }
+
 }
