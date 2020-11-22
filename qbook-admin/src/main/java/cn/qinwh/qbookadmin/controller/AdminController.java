@@ -13,7 +13,6 @@ import cn.qinwh.qbooksystem.service.SysMenuService;
 import cn.qinwh.qbooksystem.utils.LoginUserUtils;
 import cn.qinwh.qbooksystem.utils.RedisUtils;
 import com.github.pagehelper.PageInfo;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,19 +40,26 @@ public class AdminController {
     @Qualifier("userServiceImpl")
     private UserService userService;
 
-    @GetMapping("/hello")
-    @NoLogin
-    public ReturnMsg hello(){
-        List<SysMenu> menuList = sysMenuService.getUserMenu(1);
-        return ReturnMsg.success("hello", menuList);
+    /**
+     * 获取菜单列表
+     * @return
+     */
+    @GetMapping("/userMenuList")
+    public ReturnMsg userMenuList(){
+        SysUser user = LoginUserUtils.getLoginUser();
+        List<SysMenu> menuList = sysMenuService.getUserMenu(user.getId());
+        return ReturnMsg.success("获取菜单成功", menuList);
     }
 
+    /**
+     * 获取用户列表
+     * @param bo
+     * @return
+     */
     @GetMapping("/userlist")
     public ReturnMsg userList(@Valid UserBo bo){
-        SysUser user = LoginUserUtils.getLoginUser();
-
         PageInfo<User> userPageInfo = userService.selectByBo(bo);
-        return ReturnMsg.success("user", user);
+        return ReturnMsg.success("user", userPageInfo);
     }
 
     /**
