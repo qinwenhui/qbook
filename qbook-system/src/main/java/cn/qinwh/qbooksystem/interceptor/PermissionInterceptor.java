@@ -10,6 +10,7 @@ import cn.qinwh.qbooksystem.utils.LoginUserUtils;
 import cn.qinwh.qbooksystem.utils.RedisUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -26,6 +27,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
     @Autowired
     private NoLoginStoreManager noLoginStoreManager;
     @Autowired
+    @Qualifier("sysPermissionServiceImpl")
     private SysPermissionService sysPermissionService;
 
     @Override
@@ -64,6 +66,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
                 RedisUtils.set(userToken, user, RedisConst.TOKEN_SAVE_TIME);
                 //验证通过，将用户信息从redis拿出放到session方便后续使用
                 LoginUserUtils.setLoginUser(user);
+                return true;
             }
         }
         access(response);

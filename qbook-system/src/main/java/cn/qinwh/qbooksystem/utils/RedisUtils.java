@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
@@ -20,6 +21,7 @@ import java.util.concurrent.TimeUnit;
  * @author： example
  * @create: 2019/5/31
  */
+@Component
 public class RedisUtils {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;

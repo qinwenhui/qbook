@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class UserQuery {
+public class UserBo {
     /**
      * 当前页号
      */

@@ -3,6 +3,7 @@ package cn.qinwh.qbooksystem.service.impl;
 import cn.qinwh.qbooksystem.entity.SysPermission;
 import cn.qinwh.qbooksystem.entity.SysRolePermission;
 import cn.qinwh.qbooksystem.entity.SysUserRole;
+import cn.qinwh.qbooksystem.mapper.SysRolePermissionMapper;
 import cn.qinwh.qbooksystem.mapper.SysUserRoleMapper;
 import cn.qinwh.qbooksystem.service.SysPermissionService;
 import cn.qinwh.mybatis.qservice.common.BaseServiceImpl;
@@ -19,6 +20,8 @@ public class SysPermissionServiceImpl extends BaseServiceImpl<SysPermission> imp
 
     @Autowired
     private SysUserRoleMapper userRoleMapper;
+    @Autowired
+    private SysRolePermissionMapper rolePermissionMapper;
 
     @Override
     public List<SysPermission> getUserPermission(Integer userId) {
@@ -30,8 +33,15 @@ public class SysPermissionServiceImpl extends BaseServiceImpl<SysPermission> imp
         for(SysUserRole tmpUserRole : userRoleList){
             SysRolePermission rolePermission = new SysRolePermission();
             rolePermission.setRoleId(tmpUserRole.getRoleId());
-            SysPermission permission = mapper.selectByPrimaryKey(rolePermission.getPermissionId());
-            permissionList.add(permission);
+            List<SysRolePermission> rolePermissionList = rolePermissionMapper.select(rolePermission);
+            for(SysRolePermission tmpRolePermission : rolePermissionList){
+                SysPermission permission = mapper.selectByPrimaryKey(tmpRolePermission.getPermissionId());
+                if(permission != null){
+                    permissionList.add(permission);
+                }
+
+            }
+
         }
         return permissionList;
     }

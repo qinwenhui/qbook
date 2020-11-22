@@ -24,7 +24,8 @@ public class GlobleExceptionHandler {
             String msg = error.getDefaultMessage();
             return ReturnMsg.fail(msg, null);
         }else {
-            return ReturnMsg.fail("系统异常!", null);
+            e.printStackTrace();
+            return ReturnMsg.fail("系统异常!", e.getMessage());
         }
     }
 }
