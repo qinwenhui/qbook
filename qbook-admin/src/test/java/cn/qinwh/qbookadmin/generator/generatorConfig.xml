@@ -17,8 +17,8 @@
 
         <!--引入通用service-->
         <plugin type="cn.qinwh.mybatis.qservice.generator.ServicePlugin">
-            <property name="targetPackage" value="cn.qinwh.qbooksystem.service"/>
-            <property name="targetProject" value="qbook-system/src/main/java"/>
+            <property name="targetPackage" value="cn.qinwh.qbookadmin.service"/>
+            <property name="targetProject" value="qbook-admin/src/main/java"/>
         </plugin>
 
         <!-- 数据库链接URL，用户名、密码 nullCatalogMeansCurrent=true这个参数防止其他数据库同名表干扰-->
@@ -35,29 +35,28 @@
         </javaTypeResolver>
 
         <!-- 生成模型的包名和位置-->
-        <javaModelGenerator targetPackage="cn.qinwh.qbooksystem.entity" targetProject="qbook-system/src/main/java">
+        <javaModelGenerator targetPackage="cn.qinwh.qbookadmin.entity" targetProject="qbook-admin/src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
         <!-- 生成映射文件的包名和位置-->
-        <sqlMapGenerator targetPackage="mappers" targetProject="qbook-system/src/main/resources">
+        <sqlMapGenerator targetPackage="mappers" targetProject="qbook-admin/src/main/resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
         <!-- 生成DAO的包名和位置 -->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="cn.qinwh.qbooksystem.mapper" targetProject="qbook-system/src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="cn.qinwh.qbookadmin.mapper" targetProject="qbook-admin/src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
         <!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名-->
-        <table tableName="q_user" domainObjectName="SysUser" enableCountByExample="false" enableUpdateByExample="false"
+        <table tableName="q_user" domainObjectName="User" enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="false"/>
             <!-- 数据库表主键 -->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
-
 
     </context>
 

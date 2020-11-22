@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import javax.persistence.*;
 
 @Table(name = "q_user")
-public class User implements Serializable {
+public class SysUser implements Serializable {
     /**
      * ID
      */

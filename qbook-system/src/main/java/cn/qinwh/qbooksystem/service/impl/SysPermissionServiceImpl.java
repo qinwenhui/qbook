@@ -6,6 +6,7 @@ import cn.qinwh.qbooksystem.entity.SysUserRole;
 import cn.qinwh.qbooksystem.mapper.SysUserRoleMapper;
 import cn.qinwh.qbooksystem.service.SysPermissionService;
 import cn.qinwh.mybatis.qservice.common.BaseServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ import java.util.List;
 @Transactional(rollbackFor = {RuntimeException.class, Exception.class})
 public class SysPermissionServiceImpl extends BaseServiceImpl<SysPermission> implements SysPermissionService {
 
+    @Autowired
     private SysUserRoleMapper userRoleMapper;
 
     @Override

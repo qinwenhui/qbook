@@ -4,7 +4,7 @@ import cn.qinwh.qbookcommon.utils.ReturnMsg;
 import cn.qinwh.qbooksystem.annotation.manager.NoLoginStoreManager;
 import cn.qinwh.qbooksystem.constant.RedisConst;
 import cn.qinwh.qbooksystem.entity.SysPermission;
-import cn.qinwh.qbooksystem.entity.User;
+import cn.qinwh.qbooksystem.entity.SysUser;
 import cn.qinwh.qbooksystem.service.SysPermissionService;
 import cn.qinwh.qbooksystem.utils.LoginUserUtils;
 import cn.qinwh.qbooksystem.utils.RedisUtils;
@@ -49,7 +49,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
             return false;
         }
         //通过与redis中保存的token比较
-        User user = RedisUtils.get(userToken, User.class);
+        SysUser user = RedisUtils.get(userToken, SysUser.class);
         if(user == null){
             //token失效,拒绝访问
             access(response);
