@@ -24,10 +24,10 @@ public class MenuVo {
     private Map<String, String> meta;
 
     //父菜单编号
-    private Integer pid;
+    private int pid;
 
     //排序
-    private Integer sort;
+    private int sort;
 
     //子路由
     private List<MenuVo> children = new ArrayList<>();

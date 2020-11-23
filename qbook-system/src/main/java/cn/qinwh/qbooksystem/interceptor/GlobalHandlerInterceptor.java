@@ -15,8 +15,9 @@ public class GlobalHandlerInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String origin = request.getHeader("Origin");
         //执行handler之前,在这里进行拦截，设置响应跨域
-        response.setHeader("Access-Control-Allow-Origin","http://localhost:9527");
+        response.setHeader("Access-Control-Allow-Origin", origin);
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Methods","GET, OPTIONS, HEAD, PUT, POST");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type,Token");
