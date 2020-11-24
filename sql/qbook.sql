@@ -1,5 +1,5 @@
 ﻿# Host: localhost  (Version: 5.7.26)
-# Date: 2020-11-23 02:23:35
+# Date: 2020-11-25 00:57:20
 # Generator: MySQL-Front 5.3  (Build 4.234)
 
 /*!40101 SET NAMES utf8 */;
@@ -255,7 +255,7 @@ CREATE TABLE `sys_menu` (
 # Data for table "sys_menu"
 #
 
-INSERT INTO `sys_menu` VALUES (1,'菜单管理','menu/menu',0,'layui-icon-component',2),(2,'权限管理','{\"component\":\"layout/Layout\",\"name\":\"Charts\",\"path\":\"/charts\"}',0,'layui-icon-template',3),(3,'编辑管理','{\"component\":\"views/charts/keyboard\",\"name\":\"KeyboardChart\",\"path\":\"keyboard\"}',2,'layui-icon-friends',1),(4,'角色管理','{\"component\":\"views/charts/line\",\"name\":\"LineChart\",\"path\":\"line\"}',2,'layui-icon-group',2),(5,'接口管理','{\"component\":\"views/charts/mixChart\",\"name\":\"MixChart\",\"path\":\"MixChart\"}',2,'layui-icon-link',3),(6,'作者管理','',0,'layui-icon-username',4),(15,'主页','',0,'layui-icon-console',1),(16,'控制台','/',15,'layui-icon-template-1',1),(17,'作者列表','author/list',6,'layui-icon-star-fill',2),(18,'作者统计','author/tongji',6,'layui-icon-star-fill',3),(19,'作者信息','author/info',6,'layui-icon-star-fill',1),(20,'书籍管理','',0,'layui-icon-read',5),(21,'我的书籍','book/mybook',20,'layui-icon-form',2),(22,'书籍列表','book/list',20,'layui-icon-component',1),(23,'创建书籍','book/add',20,'layui-icon-star-fill',3),(24,'统计管理','',0,'layui-icon-table',6),(25,'书籍统计','statistic/book',24,'layui-icon-app',1),(26,'酬稿统计','statistic/salary',24,'layui-icon-star-fill',2),(27,'编辑菜单','/admin/menu1',1,NULL,2);
+INSERT INTO `sys_menu` VALUES (1,'菜单管理','aas',0,'layui-icon-component',2),(2,'权限管理','Permission,/permission',0,'el-icon-lock',3),(3,'编辑管理','{\"component\":\"views/charts/keyboard\",\"name\":\"KeyboardChart\",\"path\":\"keyboard\"}',2,'layui-icon-friends',1),(4,'角色管理','Role,/role',2,'user',2),(5,'接口管理','Api,/api',2,'el-icon-paperclip',3),(6,'作者管理','',0,'layui-icon-username',4),(15,'主页','',0,'layui-icon-console',1),(16,'控制台','/12',15,'layui-icon-template-1',1),(17,'作者列表','author/list',6,'layui-icon-star-fill',2),(18,'作者统计','author/tongji',6,'layui-icon-star-fill',3),(19,'作者信息','author/info',6,'layui-icon-star-fill',1),(20,'书籍管理','',0,'layui-icon-read',5),(21,'我的书籍','book/mybook',20,'layui-icon-form',2),(22,'书籍列表','book/list',20,'layui-icon-component',1),(23,'创建书籍','book/add',20,'layui-icon-star-fill',3),(24,'统计管理','',0,'layui-icon-table',6),(25,'书籍统计','statistic/book',24,'layui-icon-app',1),(26,'酬稿统计','statistic/salary',24,'layui-icon-star-fill',2),(27,'编辑菜单','/admin/menu1',1,NULL,2);
 
 #
 # Structure for table "sys_permission"
@@ -269,13 +269,13 @@ CREATE TABLE `sys_permission` (
   `url` varchar(255) NOT NULL COMMENT 'url地址',
   `status` int(11) NOT NULL DEFAULT '0' COMMENT '状态',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "sys_permission"
 #
 
-INSERT INTO `sys_permission` VALUES (1,'获取当前用户信息','  获取当前登录用户信息','/author/user/getCurrentUserInfo',0),(2,'获取用户信息','通过用户id获取用户信息','/author/user/getUserInfo',0),(3,'查询所有作者','管理员和主编可以查询所有作者信息，责编和网编只能查询其名下的所有作者','/admin/userlist',0),(4,'获取菜单','根据登录的用户角色不同获取后台菜单列表','/admin/userMenuList',0),(5,'获取菜单列表','分页获取菜单列表','/author/menu/getMenuList',0),(6,'添加菜单','添加菜单','/author/menu/add',0),(7,'修改菜单','修改惨淡','/author/menu/edit',0),(8,'删除菜单','删除菜单，参数是id和ids','/author/menu/delete',0),(9,'获取接口列表','获取接口列表，可以分页，模糊查询','/author/permission/permissionList',0),(10,'添加接口','添加接口','/author/permission/addPermission',0),(11,'编辑接口','  编辑接口','/author/permission/editPermission',0),(12,'删除接口','删除接口','/author/permission/deletePermission',0),(17,'角色列表','  获取角色列表','/author/permission/roleList',0),(18,'添加角色','  添加角色','/author/permission/addRole',0),(19,'编辑角色','  编辑角色','/author/permission/editRole',0),(20,'删除角色','  删除角色','/author/permission/deleteRole',0),(21,'获取角色权限','  通过角色id获取某个角色的所有权限','/author/permission/rolePermission',0),(22,'设置角色权限','  设置角色的接口权限','/author/permission/setRolePermission',0),(23,'获取角色菜单','获取角色菜单','/author/permission/roleMenu',0),(24,'设置角色菜单','  设置角色菜单','/author/permission/setRoleMenu',0),(25,'获取编辑人员','获取编辑人员','/author/user/editorList',0),(26,'添加工作人员','  添加工作人员(主编、责编、网编)','/author/user/addEditor',0),(27,'编辑工作人员',' 编辑工作人员','/author/user/editEditor',0),(28,'删除用户','  删除用户，包括作者、编辑、管理员等\n参数有id和ids','/author/user/deleteUser',0),(29,'上传文件','通用上传文件接口，参数upload_type指明上传用途,user为上传用户头像，book为书籍相关','/author/api/upload',0),(30,'编辑当前用户信息','  编辑当前登录的用户的信息','/author/user/editCurrentUser',0);
+INSERT INTO `sys_permission` VALUES (1,'获取当前用户信息','  获取当前登录用户信息','/admin/admin/loginUserInfo',0),(2,'获取用户信息','通过用户id获取用户信息','',0),(3,'查询所有作者','管理员和主编可以查询所有作者信息，责编和网编只能查询其名下的所有作者','/admin/admin/userlist',0),(4,'获取菜单','根据登录的用户角色不同获取后台菜单列表','/admin/admin/userMenuList',0),(5,'获取菜单列表','分页获取菜单列表','/admin/admin/allMenuList',0),(6,'添加菜单','添加菜单','',0),(7,'修改菜单','修改惨淡','',0),(8,'删除菜单','删除菜单，参数是id和ids','',0),(9,'获取接口列表','获取接口列表，可以分页，模糊查询','',0),(10,'添加接口','添加接口','',0),(11,'编辑接口','  编辑接口','',0),(12,'删除接口','删除接口','',0),(17,'角色列表','  获取角色列表','/admin/system/rolelist',0),(18,'添加角色','  添加角色','/admin/system/addrole',0),(19,'编辑角色','  编辑角色','/admin/system/deleterole',0),(20,'删除角色','  删除角色','/admin/system/editrole',0),(21,'获取角色权限','  通过角色id获取某个角色的所有权限','',0),(22,'设置角色权限','  设置角色的接口权限','',0),(23,'获取角色菜单','获取角色菜单','',0),(24,'设置角色菜单','  设置角色菜单','',0),(25,'获取编辑人员','获取编辑人员','',0),(26,'添加工作人员','  添加工作人员(主编、责编、网编)','',0),(27,'编辑工作人员',' 编辑工作人员','',0),(28,'删除用户','  删除用户，包括作者、编辑、管理员等\n参数有id和ids','/admin/admin/logout',0),(29,'上传文件','通用上传文件接口，参数upload_type指明上传用途,user为上传用户头像，book为书籍相关','',0),(30,'编辑当前用户信息','  编辑当前登录的用户的信息','',0);
 
 #
 # Structure for table "sys_role"
@@ -288,13 +288,13 @@ CREATE TABLE `sys_role` (
   `description` varchar(500) DEFAULT NULL COMMENT '角色描述',
   `status` int(11) NOT NULL DEFAULT '0' COMMENT '状态',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "sys_role"
 #
 
-INSERT INTO `sys_role` VALUES (1,'管理员','作者后台管理员',0),(2,'主编','编辑',0),(3,'责编','编辑',0),(4,'网编','编辑',0),(5,'作者','小说作者',1);
+INSERT INTO `sys_role` VALUES (1,'管理员','作者后台管理员',0),(2,'主编','编辑',0),(3,'责编','编辑',0),(4,'网编','编辑',0),(5,'作者','小说作者',1),(6,'飒飒','2122',0),(7,'撒撒','11111',0),(8,'打算大苏打','121212121',0);
 
 #
 # Structure for table "sys_role_menu"
@@ -307,7 +307,7 @@ CREATE TABLE `sys_role_menu` (
   `menu_id` int(11) NOT NULL COMMENT '菜单ID',
   `status` int(11) NOT NULL DEFAULT '0' COMMENT '删除,0正常，1删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "sys_role_menu"
