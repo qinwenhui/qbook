@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/system")
+@RequestMapping("/admin/system")
 @NoLogin
 public class SystemController {
 
@@ -66,7 +66,7 @@ public class SystemController {
         role.setDescription(bo.getDescription());
         int updateCount = sysRoleService.save(role);
         if(updateCount == 1){
-            return ReturnMsg.success("添加成功", null);
+            return ReturnMsg.success("添加成功", role);
         }
         return ReturnMsg.fail("添加角色失败", null);
     }
@@ -88,7 +88,7 @@ public class SystemController {
         role.setStatus(Integer.parseInt(bo.getStatus()));
         int updateCount = sysRoleService.updateSelective(role);
         if(updateCount == 1){
-            return ReturnMsg.success("编辑成功", null);
+            return ReturnMsg.success("编辑成功", role);
         }
         return ReturnMsg.fail("编辑角色失败", null);
     }
@@ -107,7 +107,7 @@ public class SystemController {
         role.setId(id);
         int updateCount = sysRoleService.deleteByPrimaryKey(role);
         if(updateCount == 1){
-            return ReturnMsg.success("删除成功", null);
+            return ReturnMsg.success("删除成功", role);
         }
         return ReturnMsg.fail("删除失败", null);
     }
@@ -364,7 +364,7 @@ public class SystemController {
         menu.setSort(Integer.parseInt(bo.getSort()));
         int updateCount = sysMenuService.save(menu);
         if(updateCount == 1){
-            return ReturnMsg.success("添加成功", null);
+            return ReturnMsg.success("添加成功", menu);
         }
         return ReturnMsg.fail("添加失败", null);
     }
@@ -388,7 +388,7 @@ public class SystemController {
         menu.setPid(Integer.parseInt(bo.getPid()));
         int updateCount = sysMenuService.updateSelective(menu);
         if(updateCount == 1){
-            return ReturnMsg.success("编辑成功", null);
+            return ReturnMsg.success("编辑成功", menu);
         }
         return ReturnMsg.fail("编辑菜单失败", null);
     }
@@ -407,7 +407,7 @@ public class SystemController {
         menu.setId(id);
         int updateCount = sysMenuService.deleteByPrimaryKey(menu);
         if(updateCount == 1){
-            return ReturnMsg.success("删除成功", null);
+            return ReturnMsg.success("删除成功", menu);
         }
         return ReturnMsg.fail("删除失败", null);
     }
@@ -443,7 +443,7 @@ public class SystemController {
         permission.setStatus(0);
         int updateCount = sysPermissionService.save(permission);
         if(updateCount == 1){
-            return ReturnMsg.success("添加成功", null);
+            return ReturnMsg.success("添加成功", permission);
         }
         return ReturnMsg.fail("添加失败", null);
     }
@@ -468,7 +468,7 @@ public class SystemController {
         }
         int updateCount = sysPermissionService.updateSelective(permission);
         if(updateCount == 1){
-            return ReturnMsg.success("编辑成功", null);
+            return ReturnMsg.success("编辑成功", permission);
         }
         return ReturnMsg.fail("编辑权限失败", null);
     }
@@ -487,7 +487,7 @@ public class SystemController {
         permission.setId(id);
         int updateCount = sysPermissionService.deleteByPrimaryKey(permission);
         if(updateCount == 1){
-            return ReturnMsg.success("删除成功", null);
+            return ReturnMsg.success("删除成功", permission);
         }
         return ReturnMsg.fail("删除失败", null);
     }

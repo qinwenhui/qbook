@@ -34,7 +34,7 @@ import java.util.Map;
  * @create: 2020-11-19 12:49
  **/
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/admin/admin")
 @Slf4j
 public class AdminController {
 
@@ -82,6 +82,16 @@ public class AdminController {
     }
 
     /**
+     * 获取全部菜单列表
+     * @return
+     */
+    @GetMapping("/allMenuList")
+    public ReturnMsg allMenuList(){
+        List<SysMenu> menuList = sysMenuService.queryAll();
+        return ReturnMsg.success("获取全部菜单成功", menuList);
+    }
+
+    /**
      * 获取用户列表
      * @param bo
      * @return
@@ -102,14 +112,14 @@ public class AdminController {
     @NoLogin
     public ReturnMsg login(String username, String password){
         if(username == null || password == null){
-            return ReturnMsg.success("账号密码不能为空", null);
+            return ReturnMsg.fail("账号密码不能为空", null);
         }
         User whereUser = new User();
         whereUser.setUsername(username);
         whereUser.setPassword(password);
         User user = userService.queryOne(whereUser);
         if(user == null){
-            return ReturnMsg.success("账号或密码错误", null);
+            return ReturnMsg.fail("账号或密码错误", null);
         }
         //生成redis
         String token = CharacterUtils.getRandomString(32);
