@@ -47,14 +47,14 @@ public class PermissionInterceptor implements HandlerInterceptor {
         System.out.println("11111"+request.getServletPath()+" "+userToken);
         if(userToken == null){
             //token无效,拒绝访问
-            access(response);
+            loginFalse(response);
             return false;
         }
         //通过与redis中保存的token比较
         SysUser user = RedisUtils.get(userToken, SysUser.class);
         if(user == null){
             //token失效,拒绝访问
-            access(response);
+            loginFalse(response);
             return false;
         }
         //获取该用户的所有权限地址
@@ -65,7 +65,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
                 //可以访问,更新Redis中保存的token时效
                 RedisUtils.set(userToken, user, RedisConst.TOKEN_SAVE_TIME);
                 //验证通过，将用户信息从redis拿出放到session方便后续使用
-                LoginUserUtils.setLoginUser(user);
+                LoginUserUtils.setLoginUser(userToken, user);
                 return true;
             }
         }
@@ -95,6 +95,19 @@ public class PermissionInterceptor implements HandlerInterceptor {
     private void access(HttpServletResponse response) throws Exception {
         response.setStatus(200);
         ReturnMsg json = new ReturnMsg(ReturnMsg.ACCESS, "没有权限", null);
+        ObjectMapper mapper=new ObjectMapper();
+        String jsonStr = mapper.writeValueAsString(json);
+        response.getWriter().write(jsonStr);
+    }
+
+    /**
+     * 未登录
+     * @param response
+     * @throws Exception
+     */
+    private void loginFalse(HttpServletResponse response) throws Exception {
+        response.setStatus(200);
+        ReturnMsg json = new ReturnMsg(ReturnMsg.LOGIN_FALSE, "登录已过期", null);
         ObjectMapper mapper=new ObjectMapper();
         String jsonStr = mapper.writeValueAsString(json);
         response.getWriter().write(jsonStr);

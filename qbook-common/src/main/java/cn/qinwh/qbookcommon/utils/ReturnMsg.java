@@ -45,6 +45,10 @@ public class ReturnMsg<T> implements Serializable {
         this.data = data;
     }
 
+    public static ReturnMsg custom(String code, String msg, Object data){
+        return new ReturnMsg(code, msg, data);
+    }
+
     public static ReturnMsg success(String msg, Object data){
         return new ReturnMsg(ReturnMsg.SUCCESS, msg, data);
     }
@@ -73,6 +77,10 @@ public class ReturnMsg<T> implements Serializable {
      * 权限不足
      */
     public static final String ACCESS="403";
+    /**
+     * 未登录
+     */
+    public static final String LOGIN_FALSE="8848";
 
     public String getCode() {
         return code;

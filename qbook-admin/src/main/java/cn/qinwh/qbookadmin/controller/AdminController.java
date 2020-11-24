@@ -13,17 +13,13 @@ import cn.qinwh.qbooksystem.entity.SysUser;
 import cn.qinwh.qbooksystem.service.SysMenuService;
 import cn.qinwh.qbooksystem.utils.LoginUserUtils;
 import cn.qinwh.qbooksystem.utils.RedisUtils;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -67,11 +63,9 @@ public class AdminController {
      * @return
      */
     @GetMapping("/usermenu")
-    @NoLogin
     public ReturnMsg userMenu(){
-//        SysUser user = LoginUserUtils.getLoginUser();
-//        List<SysMenu> menuList = sysMenuService.getUserMenu(user.getId());
-        List<SysMenu> menuList = sysMenuService.getUserMenu(1);
+        SysUser user = LoginUserUtils.getLoginUser();
+        List<SysMenu> menuList = sysMenuService.getUserMenu(user.getId());
         List<MenuVo> menuVoList = new ArrayList<>();
         for(SysMenu menu: menuList){
             menuVoList.add(menuToVo(menu));
@@ -121,6 +115,37 @@ public class AdminController {
         String token = CharacterUtils.getRandomString(32);
         RedisUtils.set(token, user, RedisConst.TOKEN_SAVE_TIME);
         return ReturnMsg.success("登录成功", token);
+    }
+
+    /**
+    * @Description: 退出登录
+    * @Param: []
+    * @return: cn.qinwh.qbookcommon.utils.ReturnMsg
+    * @Author: qinwh
+    * @Date: 2020/11/24
+    */
+    @GetMapping("/logout")
+    public ReturnMsg logout(){
+        String userToken = LoginUserUtils.getToken();
+        RedisUtils.delete(userToken);
+        return ReturnMsg.custom(ReturnMsg.LOGIN_FALSE, "注销成功", userToken);
+    }
+
+    /**
+    * @Description: 获取登录用户信息
+    * @Param: []
+    * @return: cn.qinwh.qbookcommon.utils.ReturnMsg
+    * @Author: qinwh
+    * @Date: 2020/11/24
+    */
+    @GetMapping("/loginUserInfo")
+    public ReturnMsg loginUserInfo(){
+        SysUser sysUser = LoginUserUtils.getLoginUser();
+        User user = userService.queryByPrimaryKey(sysUser.getId());
+        if(user != null){
+            return ReturnMsg.success("获取用户信息成功", user);
+        }
+        return ReturnMsg.custom(ReturnMsg.LOGIN_FALSE, "获取登录用户信息失败", null);
     }
 
     private boolean generateMenu(List<MenuVo> srcList, MenuVo menu){

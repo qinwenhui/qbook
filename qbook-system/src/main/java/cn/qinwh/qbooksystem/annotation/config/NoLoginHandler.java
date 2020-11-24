@@ -28,7 +28,6 @@ public class NoLoginHandler implements BeanPostProcessor {
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        System.out.println("=============>" + beanName);
         Method[] methods = ReflectionUtils.getAllDeclaredMethods(bean.getClass());
         //检查该类是否存在Controller注解
         Controller controller = AnnotationUtils.findAnnotation(bean.getClass(), Controller.class);
