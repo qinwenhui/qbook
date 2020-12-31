@@ -8,4 +8,6 @@ import java.util.List;
 public interface SysMenuService extends BaseService<SysMenu> {
 
     List<SysMenu> getUserMenu(Integer userId);
+
+    List<SysMenu> getUserMenuByRole(Integer roleId);
 }

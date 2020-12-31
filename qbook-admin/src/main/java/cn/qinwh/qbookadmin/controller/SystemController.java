@@ -4,6 +4,7 @@ import cn.qinwh.qbookadmin.bo.MenuBo;
 import cn.qinwh.qbookadmin.bo.PermissionBo;
 import cn.qinwh.qbookadmin.bo.RoleBo;
 import cn.qinwh.qbookcommon.utils.ReturnMsg;
+import cn.qinwh.qbookcommon.utils.StringUtils;
 import cn.qinwh.qbooksystem.annotation.NoLogin;
 import cn.qinwh.qbooksystem.entity.*;
 import cn.qinwh.qbooksystem.service.*;
@@ -72,6 +73,32 @@ public class SystemController {
     }
 
     /**
+     * 添加角色和该角色对应菜单权限
+     * @param bo
+     * @return
+     */
+    @PostMapping("/addroleandmenu")
+    public ReturnMsg addRoleAndMenu(@Valid RoleBo bo, String menuIds){
+        Integer[] ids = new Integer[0];
+        if(StringUtils.isNotEmpty(menuIds)){
+            String[] temp = menuIds.split(",");
+            ids = new Integer[temp.length];
+            for(int i=0;i<temp.length;i++){
+                ids[i] = Integer.parseInt(temp[i]);
+            }
+        }
+        SysRole role = new SysRole();
+        role.setName(bo.getName());
+        role.setStatus(0);
+        role.setDescription(bo.getDescription());
+        boolean updateState = sysRoleService.addRoleAndMenu(role, ids);
+        if(updateState){
+            return ReturnMsg.success("添加成功", role);
+        }
+        return ReturnMsg.fail("添加角色失败", null);
+    }
+
+    /**
      * 编辑角色
      * @param bo
      * @return
@@ -94,6 +121,37 @@ public class SystemController {
     }
 
     /**
+     * 编辑角色和该角色对应菜单权限
+     * @param bo
+     * @return
+     */
+    @PostMapping("/editroleandmenu")
+    public ReturnMsg editRoleAndMenu(@Valid RoleBo bo, Integer id, String menuIds){
+        if(id == null){
+            return ReturnMsg.fail("角色编号不能为空", null);
+        }
+        Integer[] ids = new Integer[0];
+        if(StringUtils.isNotEmpty(menuIds)){
+            String[] temp = menuIds.split(",");
+            ids = new Integer[temp.length];
+            for(int i=0;i<temp.length;i++){
+                ids[i] = Integer.parseInt(temp[i]);
+            }
+        }
+
+        SysRole role = new SysRole();
+        role.setId(id);
+        role.setName(bo.getName());
+        role.setDescription(bo.getDescription());
+        role.setStatus(Integer.parseInt(bo.getStatus()));
+        boolean updateState = sysRoleService.updateRoleAndMenu(role, ids);
+        if(updateState){
+            return ReturnMsg.success("编辑成功", role);
+        }
+        return ReturnMsg.fail("编辑角色失败", null);
+    }
+
+    /**
      * 删除角色
      * @param id
      * @return
@@ -108,6 +166,23 @@ public class SystemController {
         int updateCount = sysRoleService.deleteByPrimaryKey(role);
         if(updateCount == 1){
             return ReturnMsg.success("删除成功", role);
+        }
+        return ReturnMsg.fail("删除失败", null);
+    }
+
+    /**
+     * 删除角色以及对应的菜单关联
+     * @param id
+     * @return
+     */
+    @GetMapping("/deleteroleandmenu")
+    public ReturnMsg deleteRoleAndMenu(Integer id){
+        if(id == null){
+            return ReturnMsg.fail("id不能为空", null);
+        }
+        boolean deleteResult = sysRoleService.deleteRoleAndMenu(id);
+        if(deleteResult){
+            return ReturnMsg.success("删除成功", id);
         }
         return ReturnMsg.fail("删除失败", null);
     }

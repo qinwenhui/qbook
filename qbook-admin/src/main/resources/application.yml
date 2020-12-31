@@ -67,3 +67,5 @@ logging:
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #type-aliases-package: cn.qinwh.qbooksystem.entity
+  mapper-locations: classpath*:mappers/*.xml

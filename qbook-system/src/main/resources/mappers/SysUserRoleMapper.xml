@@ -16,33 +16,5 @@
     -->
     id, role_id, user_id, status
   </sql>
-  <resultMap id="BaseResultMap" type="cn.qinwh.qbooksystem.entity.SysUserRoleKey">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="user_id" jdbcType="BIGINT" property="userId" />
-    <id column="role_id" jdbcType="BIGINT" property="roleId" />
-  </resultMap>
-  <resultMap id="BaseResultMap" type="cn.qinwh.qbooksystem.entity.SysUserRole">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="user_id" jdbcType="INTEGER" property="userId" />
-    <id column="role_id" jdbcType="INTEGER" property="roleId" />
-    <result column="id" jdbcType="INTEGER" property="id" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    user_id, role_id, id, status
-  </sql>
-  <resultMap id="BaseResultMap" type="cn.qinwh.qbooksystem.entity.SysUserRoleKey">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="user_id" jdbcType="BIGINT" property="userId" />
-    <id column="role_id" jdbcType="BIGINT" property="roleId" />
-  </resultMap>
+
 </mapper>

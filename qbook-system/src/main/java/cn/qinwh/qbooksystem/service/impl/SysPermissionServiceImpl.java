@@ -3,6 +3,7 @@ package cn.qinwh.qbooksystem.service.impl;
 import cn.qinwh.qbooksystem.entity.SysPermission;
 import cn.qinwh.qbooksystem.entity.SysRolePermission;
 import cn.qinwh.qbooksystem.entity.SysUserRole;
+import cn.qinwh.qbooksystem.mapper.SysPermissionMapper;
 import cn.qinwh.qbooksystem.mapper.SysRolePermissionMapper;
 import cn.qinwh.qbooksystem.mapper.SysUserRoleMapper;
 import cn.qinwh.qbooksystem.service.SysPermissionService;
@@ -19,30 +20,11 @@ import java.util.List;
 public class SysPermissionServiceImpl extends BaseServiceImpl<SysPermission> implements SysPermissionService {
 
     @Autowired
-    private SysUserRoleMapper userRoleMapper;
-    @Autowired
-    private SysRolePermissionMapper rolePermissionMapper;
+    private SysPermissionMapper sysPermissionMapper;
 
     @Override
     public List<SysPermission> getUserPermission(Integer userId) {
-        List<SysPermission> permissionList = new ArrayList<>();
-        //获取该用户的所有角色
-        SysUserRole userRole = new SysUserRole();
-        userRole.setUserId(userId);
-        List<SysUserRole> userRoleList = userRoleMapper.select(userRole);
-        for(SysUserRole tmpUserRole : userRoleList){
-            SysRolePermission rolePermission = new SysRolePermission();
-            rolePermission.setRoleId(tmpUserRole.getRoleId());
-            List<SysRolePermission> rolePermissionList = rolePermissionMapper.select(rolePermission);
-            for(SysRolePermission tmpRolePermission : rolePermissionList){
-                SysPermission permission = mapper.selectByPrimaryKey(tmpRolePermission.getPermissionId());
-                if(permission != null){
-                    permissionList.add(permission);
-                }
-
-            }
-
-        }
+        List<SysPermission> permissionList = sysPermissionMapper.selectUserPemission(userId);
         return permissionList;
     }
 }

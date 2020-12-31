@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(scanBasePackages = {"cn.qinwh.*"})
-@MapperScan({"cn.qinwh.*"})
+@MapperScan(basePackages = {"cn.qinwh.qbookadmin.mapper","cn.qinwh.qbooksystem.mapper"})
 public class QbookAdminApplication {
 
     public static void main(String[] args) {

@@ -17,20 +17,8 @@
     -->
     id, name, description, url, status
   </sql>
-  <resultMap id="BaseResultMap" type="cn.qinwh.qbooksystem.entity.SysPermission">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="url" jdbcType="VARCHAR" property="url" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    id, name, description, url, status
-  </sql>
+
+  <select id="selectUserPemission" resultType="cn.qinwh.qbooksystem.entity.SysPermission" parameterType="java.lang.Integer">
+    select t3.* from sys_user_role t1,sys_role_permission t2,sys_permission t3 where t1.role_id=t2.role_id and t2.permission_id=t3.id and user_id=#{userId} and t2.status=0 group by t3.id
+  </select>
 </mapper>

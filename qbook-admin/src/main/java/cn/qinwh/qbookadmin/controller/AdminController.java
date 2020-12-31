@@ -5,6 +5,7 @@ import cn.qinwh.qbookadmin.service.UserService;
 import cn.qinwh.qbookadmin.vo.MenuVo;
 import cn.qinwh.qbookcommon.utils.CharacterUtils;
 import cn.qinwh.qbookcommon.utils.ReturnMsg;
+import cn.qinwh.qbookcommon.utils.StringUtils;
 import cn.qinwh.qbooksystem.annotation.NoLogin;
 import cn.qinwh.qbooksystem.constant.RedisConst;
 import cn.qinwh.qbooksystem.entity.SysMenu;
@@ -53,6 +54,19 @@ public class AdminController {
     public ReturnMsg userMenuList(){
         SysUser user = LoginUserUtils.getLoginUser();
         List<SysMenu> menuList = sysMenuService.getUserMenu(user.getId());
+        return ReturnMsg.success("获取菜单成功", menuList);
+    }
+
+    /**
+     * 根绝角色编号获取菜单列表（没有进行路由格式化之前的原始数据）
+     * @return
+     */
+    @GetMapping("/userMenuListByRole")
+    public ReturnMsg userMenuListByRole(Integer roleId){
+        if(roleId == null){
+            return ReturnMsg.fail("角色编号不能为空", null);
+        }
+        List<SysMenu> menuList = sysMenuService.getUserMenuByRole(roleId);
         return ReturnMsg.success("获取菜单成功", menuList);
     }
 

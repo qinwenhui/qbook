@@ -16,33 +16,5 @@
     -->
     id, role_id, menu_id, status
   </sql>
-  <resultMap id="BaseResultMap" type="cn.qinwh.qbooksystem.entity.SysRoleMenuKey">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="role_id" jdbcType="BIGINT" property="roleId" />
-    <id column="menu_id" jdbcType="BIGINT" property="menuId" />
-  </resultMap>
-  <resultMap id="BaseResultMap" type="cn.qinwh.qbooksystem.entity.SysRoleMenuKey">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="role_id" jdbcType="BIGINT" property="roleId" />
-    <id column="menu_id" jdbcType="BIGINT" property="menuId" />
-  </resultMap>
-  <resultMap id="BaseResultMap" type="cn.qinwh.qbooksystem.entity.SysRoleMenu">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="role_id" jdbcType="INTEGER" property="roleId" />
-    <id column="menu_id" jdbcType="INTEGER" property="menuId" />
-    <result column="id" jdbcType="INTEGER" property="id" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--
-      WARNING - @mbg.generated
-    -->
-    role_id, menu_id, id, status
-  </sql>
+
 </mapper>
