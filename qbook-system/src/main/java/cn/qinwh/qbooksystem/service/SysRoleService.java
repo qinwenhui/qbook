@@ -30,4 +30,13 @@ public interface SysRoleService extends BaseService<SysRole> {
     * @Date: 2020/12/31
     */
     boolean deleteRoleAndMenu(Integer roleId);
+
+    /**
+    * @Description: 修改该角色的接口权限
+    * @Param: [roleId, permissionIds]
+    * @return: boolean
+    * @Author: qinwh
+    * @Date: 2021/1/4
+    */
+    boolean updateRoleAndPermission(Integer roleId, Integer[] permissionIds);
 }

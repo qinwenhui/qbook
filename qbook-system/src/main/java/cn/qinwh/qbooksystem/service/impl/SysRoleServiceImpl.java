@@ -3,9 +3,11 @@ package cn.qinwh.qbooksystem.service.impl;
 import cn.qinwh.qbooksystem.entity.SysMenu;
 import cn.qinwh.qbooksystem.entity.SysRole;
 import cn.qinwh.qbooksystem.entity.SysRoleMenu;
+import cn.qinwh.qbooksystem.entity.SysRolePermission;
 import cn.qinwh.qbooksystem.mapper.SysMenuMapper;
 import cn.qinwh.qbooksystem.mapper.SysRoleMapper;
 import cn.qinwh.qbooksystem.mapper.SysRoleMenuMapper;
+import cn.qinwh.qbooksystem.mapper.SysRolePermissionMapper;
 import cn.qinwh.qbooksystem.service.SysRoleService;
 import cn.qinwh.mybatis.qservice.common.BaseServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +29,8 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
     private SysRoleMenuMapper sysRoleMenuMapper;
     @Autowired
     private SysMenuMapper sysMenuMapper;
+    @Autowired
+    private SysRolePermissionMapper sysRolePermissionMapper;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -81,6 +85,48 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
         }catch (Exception e){
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             log.error("删除角色以及对应菜单权限失败{}", e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean updateRoleAndPermission(Integer roleId, Integer[] permissionIds) {
+        try{
+            //先把所有的已存在的关联置为无效
+            Example example = new Example(SysRolePermission.class);
+            example.createCriteria().andEqualTo("roleId", roleId);
+            SysRolePermission sysRolePermission = new SysRolePermission();
+            sysRolePermission.setStatus(1);
+            sysRolePermissionMapper.updateByExampleSelective(sysRolePermission, example);
+            //查询已经存在的关联关系
+            List<SysRolePermission> rolePermissionList = sysRolePermissionMapper.selectByExample(example);
+            for(Integer permissionId: permissionIds){
+                //先看看存不存在数据
+                SysRolePermission isExist = null;
+                for(SysRolePermission tmp: rolePermissionList){
+                    if(tmp.getPermissionId().equals(permissionId)){
+                        isExist = tmp;
+                        break;
+                    }
+                }
+                SysRolePermission rolePermission = new SysRolePermission();
+                rolePermission.setPermissionId(permissionId);
+                rolePermission.setRoleId(roleId);
+                rolePermission.setStatus(0);
+                if(isExist != null){
+                    //已经存在数据，只需要把状态改了
+                    rolePermission.setId(isExist.getId());
+                    sysRolePermissionMapper.updateByPrimaryKeySelective(rolePermission);
+                }else{
+                    //不存在数据，生成
+                    sysRolePermissionMapper.insertSelective(rolePermission);
+                }
+            }
+        }catch (Exception e){
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            log.error("修改角色接口权限失败{}", e.getMessage());
             return false;
         }
         return true;

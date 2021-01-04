@@ -339,28 +339,28 @@ public class SystemController {
      * @return
      */
     @GetMapping("/addrolepermissionall")
-    public ReturnMsg addRolePermissionAll(Integer roleId, Integer[] permissionIds){
+    public ReturnMsg addRolePermissionAll(Integer roleId, String permissionIds){
         ReturnMsg validateResult = validateNull(roleId, permissionIds);
-        if(validateResult.getCode().equals(ReturnMsg.FAIL) || permissionIds.length == 0){
+        if(validateResult.getCode().equals(ReturnMsg.FAIL)){
             return validateResult;
         }
-        for(Integer permissionId: permissionIds){
-            SysRolePermission rolePermission = new SysRolePermission();
-            rolePermission.setRoleId(roleId);
-            rolePermission.setPermissionId(permissionId);
-            //先查询看看存不存在数据
-            List<SysRolePermission> rolePermissionList = sysRolePermissionService.queryListByWhere(rolePermission);
-            rolePermission.setStatus(0);
-            if(rolePermissionList != null && !rolePermissionList.isEmpty()){
-                //已经存在数据，只需要把状态改了
-                rolePermission.setId(rolePermissionList.get(0).getId());
-                sysRolePermissionService.updateSelective(rolePermission);
-            }else{
-                //不存在数据，生成
-                sysRolePermissionService.save(rolePermission);
+        Integer[] ids = new Integer[0];
+        if(!"".equals(permissionIds)){
+            String[] temp = permissionIds.split(",");
+            ids = new Integer[temp.length];
+            for(int i=0;i<temp.length;i++){
+                try{
+                    ids[i] = Integer.parseInt(temp[i]);
+                }catch (NumberFormatException e){
+                    return ReturnMsg.fail("permissionIds参数有误", null);
+                }
             }
         }
-        return ReturnMsg.success("添加成功", null);
+        boolean ok = sysRoleService.updateRoleAndPermission(roleId, ids);
+        if(ok){
+            return ReturnMsg.success("添加成功", null);
+        }
+        return ReturnMsg.fail("添加权限失败", null);
     }
 
     /**
