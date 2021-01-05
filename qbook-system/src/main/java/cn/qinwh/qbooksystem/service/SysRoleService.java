@@ -3,6 +3,8 @@ package cn.qinwh.qbooksystem.service;
 import cn.qinwh.qbooksystem.entity.SysRole;
 import cn.qinwh.mybatis.qservice.common.BaseService;
 
+import java.util.List;
+
 public interface SysRoleService extends BaseService<SysRole> {
     /**
     * @Description: 修改角色信息和该角色对应菜单权限
@@ -39,4 +41,13 @@ public interface SysRoleService extends BaseService<SysRole> {
     * @Date: 2021/1/4
     */
     boolean updateRoleAndPermission(Integer roleId, Integer[] permissionIds);
+
+    /**
+    * @Description: 根据用户获取该用户的所有角色
+    * @Param: [userId]
+    * @return: java.util.List<cn.qinwh.qbooksystem.entity.SysRole>
+    * @Author: qinwh
+    * @Date: 2021/1/5
+    */
+    List<SysRole> getRoleByUser(Integer userId);
 }

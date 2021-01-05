@@ -10,8 +10,10 @@ import cn.qinwh.qbooksystem.annotation.NoLogin;
 import cn.qinwh.qbooksystem.constant.RedisConst;
 import cn.qinwh.qbooksystem.entity.SysMenu;
 import cn.qinwh.qbookadmin.entity.User;
+import cn.qinwh.qbooksystem.entity.SysRole;
 import cn.qinwh.qbooksystem.entity.SysUser;
 import cn.qinwh.qbooksystem.service.SysMenuService;
+import cn.qinwh.qbooksystem.service.SysRoleService;
 import cn.qinwh.qbooksystem.utils.LoginUserUtils;
 import cn.qinwh.qbooksystem.utils.RedisUtils;
 import com.github.pagehelper.PageInfo;
@@ -45,6 +47,9 @@ public class AdminController {
     @Autowired
     @Qualifier("userServiceImpl")
     private UserService userService;
+    @Autowired
+    @Qualifier("sysRoleServiceImpl")
+    private SysRoleService sysRoleService;
 
     /**
      * 获取菜单列表（没有进行路由格式化之前的原始数据）
@@ -106,6 +111,19 @@ public class AdminController {
     }
 
     /**
+     * 根据用户编号获取角色列表
+     * @return
+     */
+    @GetMapping("/roleListByUser")
+    public ReturnMsg roleListByUser(Integer userId){
+        if(userId == null){
+            return ReturnMsg.fail("用户编号不能为空", null);
+        }
+        List<SysRole> roleList = sysRoleService.getRoleByUser(userId);
+        return ReturnMsg.success("获取角色成功", roleList);
+    }
+
+    /**
      * 获取用户列表
      * @param bo
      * @return
@@ -113,7 +131,7 @@ public class AdminController {
     @GetMapping("/userlist")
     public ReturnMsg userList(@Valid UserBo bo){
         PageInfo<User> userPageInfo = userService.selectByBo(bo);
-        return ReturnMsg.success("user", userPageInfo);
+        return ReturnMsg.success("查询成功", userPageInfo);
     }
 
     /**

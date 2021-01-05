@@ -132,6 +132,11 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
         return true;
     }
 
+    @Override
+    public List<SysRole> getRoleByUser(Integer userId) {
+        return sysRoleMapper.selectByUserId(userId);
+    }
+
     private void updateRoleMenuDeep(Integer roleId, Integer menuId){
         //先查询看看存不存在数据
         Example roleMenuExample = new Example(SysRoleMenu.class);

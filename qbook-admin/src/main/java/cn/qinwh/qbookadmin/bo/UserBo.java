@@ -36,4 +36,8 @@ public class UserBo {
      * vip状态:1=是,0=否
      */
     private String vip;
+    /**
+     * 状态:1=正常,0=冻结
+     */
+    private String status;
 }
