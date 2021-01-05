@@ -510,8 +510,16 @@ public class SystemController {
     public ReturnMsg permissionList(SysPermission permission, @RequestParam("pageNo") Integer pageNo, @RequestParam("pageSize") Integer pageSize){
         PageHelper.startPage(pageNo, pageSize);
         Example example = new Example(SysPermission.class);
-        example.createCriteria().andLike("name", "%"+permission.getName()+"%").andLike("description", "%"+permission.getDescription()+"%")
-                .andLike("url", "%"+permission.getUrl()+"%");
+        Example.Criteria criteria = example.createCriteria();
+        if(StringUtils.isNotEmpty(permission.getName())){
+            criteria.andLike("name", "%"+permission.getName()+"%");
+        }
+        if(StringUtils.isNotEmpty(permission.getDescription())){
+            criteria.andLike("description", "%"+permission.getDescription()+"%");
+        }
+        if(StringUtils.isNotEmpty(permission.getUrl())){
+            criteria.andLike("url", "%"+permission.getUrl()+"%");
+        }
         List<SysPermission> sysPermission = sysPermissionService.queryListByExample(example);
         PageInfo<SysPermission> pageInfo = new PageInfo<>(sysPermission);
         return ReturnMsg.success("查询成功", pageInfo);
