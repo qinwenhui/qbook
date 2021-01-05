@@ -11,6 +11,7 @@ import cn.qinwh.mybatis.qservice.common.BaseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,5 +32,11 @@ public class SysPermissionServiceImpl extends BaseServiceImpl<SysPermission> imp
     @Override
     public List<SysPermission> permissionByRole(Integer roleId) {
         return sysPermissionMapper.selectRolePermission(roleId);
+    }
+
+    @Override
+    public List<SysPermission> queryListByExample(Example example) {
+
+        return sysPermissionMapper.selectByExample(example);
     }
 }

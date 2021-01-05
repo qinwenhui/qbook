@@ -5,7 +5,6 @@ import cn.qinwh.qbookadmin.bo.PermissionBo;
 import cn.qinwh.qbookadmin.bo.RoleBo;
 import cn.qinwh.qbookcommon.utils.ReturnMsg;
 import cn.qinwh.qbookcommon.utils.StringUtils;
-import cn.qinwh.qbooksystem.annotation.NoLogin;
 import cn.qinwh.qbooksystem.entity.*;
 import cn.qinwh.qbooksystem.service.*;
 import com.github.pagehelper.PageHelper;
@@ -20,7 +19,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admin/system")
-@NoLogin
 public class SystemController {
 
     @Autowired
@@ -511,7 +509,10 @@ public class SystemController {
     @GetMapping("/permissionlist")
     public ReturnMsg permissionList(SysPermission permission, @RequestParam("pageNo") Integer pageNo, @RequestParam("pageSize") Integer pageSize){
         PageHelper.startPage(pageNo, pageSize);
-        List<SysPermission> sysPermission = sysPermissionService.queryListByWhere(permission);
+        Example example = new Example(SysPermission.class);
+        example.createCriteria().andLike("name", "%"+permission.getName()+"%").andLike("description", "%"+permission.getDescription()+"%")
+                .andLike("url", "%"+permission.getUrl()+"%");
+        List<SysPermission> sysPermission = sysPermissionService.queryListByExample(example);
         PageInfo<SysPermission> pageInfo = new PageInfo<>(sysPermission);
         return ReturnMsg.success("查询成功", pageInfo);
     }
