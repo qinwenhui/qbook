@@ -410,6 +410,19 @@ public class SystemController {
     }
 
     /**
+     * 根据角色编号获取接口列表
+     * @return
+     */
+    @GetMapping("/permissionbyrole")
+    public ReturnMsg permissionByRole(Integer roleId){
+        if(roleId == null){
+            return ReturnMsg.fail("角色编号不能为空", null);
+        }
+        List<SysPermission> permissionList = sysPermissionService.permissionByRole(roleId);
+        return ReturnMsg.success("获取菜单成功", permissionList);
+    }
+
+    /**
      * 菜单列表查询
      * @param menu
      * @param pageNo

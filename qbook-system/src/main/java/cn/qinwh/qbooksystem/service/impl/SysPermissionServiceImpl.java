@@ -27,4 +27,9 @@ public class SysPermissionServiceImpl extends BaseServiceImpl<SysPermission> imp
         List<SysPermission> permissionList = sysPermissionMapper.selectUserPemission(userId);
         return permissionList;
     }
+
+    @Override
+    public List<SysPermission> permissionByRole(Integer roleId) {
+        return sysPermissionMapper.selectRolePermission(roleId);
+    }
 }

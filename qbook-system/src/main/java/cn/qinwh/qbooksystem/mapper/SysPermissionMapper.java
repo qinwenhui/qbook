@@ -15,4 +15,13 @@ public interface SysPermissionMapper extends Mapper<SysPermission> {
     * @Date: 2020/12/31
     */
     List<SysPermission> selectUserPemission(@Param("userId") Integer userId);
+
+    /**
+    * @Description: 通过角色编号查询接口权限列表
+    * @Param: [roleId]
+    * @return: java.util.List<cn.qinwh.qbooksystem.entity.SysPermission>
+    * @Author: qinwh
+    * @Date: 2021/1/5
+    */
+    List<SysPermission> selectRolePermission(@Param("roleId") Integer roleId);
 }

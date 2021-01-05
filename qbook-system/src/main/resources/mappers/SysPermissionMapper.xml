@@ -21,4 +21,8 @@
   <select id="selectUserPemission" resultType="cn.qinwh.qbooksystem.entity.SysPermission" parameterType="java.lang.Integer">
     select t3.* from sys_user_role t1,sys_role_permission t2,sys_permission t3 where t1.role_id=t2.role_id and t2.permission_id=t3.id and user_id=#{userId} and t2.status=0 group by t3.id
   </select>
+
+  <select id="selectRolePermission" resultType="cn.qinwh.qbooksystem.entity.SysPermission" parameterType="java.lang.Integer">
+    select t2.* from sys_role_permission t1,sys_permission t2 where t1.permission_id=t2.id and t1.role_id=#{roleId} and t1.status=0 group by t2.id
+  </select>
 </mapper>
