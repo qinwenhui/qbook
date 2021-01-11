@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.qinwh.qbooksystem.mapper.SysUserMapper" >
-  <resultMap id="BaseResultMap" type="cn.qinwh.qbooksystem.entity.SysUser" >
+  <resultMap id="BaseResultMap" type="cn.qinwh.qbooksystem.entity.SysUser">
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="username" property="username" jdbcType="VARCHAR" />
-    <result column="phone" property="phone" jdbcType="VARCHAR" />
-    <result column="password" property="password" jdbcType="VARCHAR" />
-    <result column="paypass" property="paypass" jdbcType="VARCHAR" />
-    <result column="register_time" property="registerTime" jdbcType="VARCHAR" />
-    <result column="last_time" property="lastTime" jdbcType="VARCHAR" />
-    <result column="isvip_status" property="isvipStatus" jdbcType="TINYINT" />
-    <result column="viptime" property="viptime" jdbcType="VARCHAR" />
-    <result column="headimage" property="headimage" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="TINYINT" />
-    <result column="money" property="money" jdbcType="DECIMAL" />
-    <result column="score" property="score" jdbcType="INTEGER" />
-    <result column="lv" property="lv" jdbcType="TINYINT" />
-    <result column="pid" property="pid" jdbcType="INTEGER" />
-    <result column="path_id" property="pathId" jdbcType="VARCHAR" />
-    <result column="register_ip" property="registerIp" jdbcType="VARCHAR" />
-    <result column="login_ip" property="loginIp" jdbcType="VARCHAR" />
-    <result column="login_nums" property="loginNums" jdbcType="INTEGER" />
-    <result column="useragent" property="useragent" jdbcType="VARCHAR" />
-    <result column="type" property="type" jdbcType="TINYINT" />
-    <result column="lxqd" property="lxqd" jdbcType="INTEGER" />
-    <result column="is_agent" property="isAgent" jdbcType="BIT" />
-    <result column="has_kou" property="hasKou" jdbcType="INTEGER" />
-    <result column="tj_kou" property="tjKou" jdbcType="INTEGER" />
-    <result column="myui" property="myui" jdbcType="VARCHAR" />
-    <result column="is_first" property="isFirst" jdbcType="INTEGER" />
-    <result column="domain" property="domain" jdbcType="INTEGER" />
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="paypass" jdbcType="VARCHAR" property="paypass" />
+    <result column="register_time" jdbcType="TIMESTAMP" property="registerTime" />
+    <result column="last_time" jdbcType="TIMESTAMP" property="lastTime" />
+    <result column="isvip_status" jdbcType="TINYINT" property="isvipStatus" />
+    <result column="viptime" jdbcType="TIMESTAMP" property="viptime" />
+    <result column="headimage" jdbcType="VARCHAR" property="headimage" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="score" jdbcType="INTEGER" property="score" />
+    <result column="lv" jdbcType="TINYINT" property="lv" />
+    <result column="pid" jdbcType="INTEGER" property="pid" />
+    <result column="path_id" jdbcType="VARCHAR" property="pathId" />
+    <result column="register_ip" jdbcType="VARCHAR" property="registerIp" />
+    <result column="login_ip" jdbcType="VARCHAR" property="loginIp" />
+    <result column="login_nums" jdbcType="INTEGER" property="loginNums" />
+    <result column="useragent" jdbcType="VARCHAR" property="useragent" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="lxqd" jdbcType="INTEGER" property="lxqd" />
+    <result column="is_agent" jdbcType="BIT" property="isAgent" />
+    <result column="has_kou" jdbcType="INTEGER" property="hasKou" />
+    <result column="tj_kou" jdbcType="INTEGER" property="tjKou" />
+    <result column="myui" jdbcType="VARCHAR" property="myui" />
+    <result column="is_first" jdbcType="INTEGER" property="isFirst" />
+    <result column="domain" jdbcType="INTEGER" property="domain" />
   </resultMap>
-  <sql id="Base_Column_List" >
+  <sql id="Base_Column_List">
     <!--
       WARNING - @mbg.generated
     -->
-    id, username, phone, password, paypass, register_time, last_time, isvip_status, viptime, 
-    headimage, status, money, score, lv, pid, path_id, register_ip, login_ip, login_nums, 
+    id, username, phone, password, paypass, register_time, last_time, isvip_status, viptime,
+    headimage, status, money, score, lv, pid, path_id, register_ip, login_ip, login_nums,
     useragent, type, lxqd, is_agent, has_kou, tj_kou, myui, is_first, domain
   </sql>
 </mapper>

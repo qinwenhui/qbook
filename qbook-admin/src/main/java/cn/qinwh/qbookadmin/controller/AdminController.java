@@ -147,7 +147,7 @@ public class AdminController {
         User user = new User();
         user.setId(Integer.parseInt(bo.getId()));
         if(StringUtils.isNotEmpty(bo.getStatus())){
-            user.setStatus(Byte.parseByte(bo.getStatus()));
+            user.setStatus(Integer.parseInt(bo.getStatus()));
         }
         if(StringUtils.isNotEmpty(bo.getPassword())){
             user.setPassword(bo.getPassword());

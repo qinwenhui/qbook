@@ -10,10 +10,10 @@
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="paypass" jdbcType="VARCHAR" property="paypass" />
-    <result column="register_time" jdbcType="VARCHAR" property="registerTime" />
-    <result column="last_time" jdbcType="VARCHAR" property="lastTime" />
+    <result column="register_time" jdbcType="TIMESTAMP" property="registerTime" />
+    <result column="last_time" jdbcType="TIMESTAMP" property="lastTime" />
     <result column="isvip_status" jdbcType="TINYINT" property="isvipStatus" />
-    <result column="viptime" jdbcType="VARCHAR" property="viptime" />
+    <result column="viptime" jdbcType="TIMESTAMP" property="viptime" />
     <result column="headimage" jdbcType="VARCHAR" property="headimage" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="money" jdbcType="DECIMAL" property="money" />
@@ -38,8 +38,8 @@
     <!--
       WARNING - @mbg.generated
     -->
-    id, username, phone, password, paypass, register_time, last_time, isvip_status, viptime, 
-    headimage, status, money, score, lv, pid, path_id, register_ip, login_ip, login_nums, 
+    id, username, phone, password, paypass, register_time, last_time, isvip_status, viptime,
+    headimage, status, money, score, lv, pid, path_id, register_ip, login_ip, login_nums,
     useragent, type, lxqd, is_agent, has_kou, tj_kou, myui, is_first, domain
   </sql>
 

@@ -3,6 +3,8 @@ package cn.qinwh.qbookadmin.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Table(name = "q_user")
 public class User implements Serializable {
@@ -37,24 +39,24 @@ public class User implements Serializable {
      * 注册时间
      */
     @Column(name = "register_time")
-    private String registerTime;
+    private Date registerTime;
 
     /**
      * 最后登录时间
      */
     @Column(name = "last_time")
-    private String lastTime;
+    private Date lastTime;
 
     /**
      * vip状态:1=是,0=否
      */
     @Column(name = "isvip_status")
-    private Byte isvipStatus;
+    private Integer isvipStatus;
 
     /**
      * vip到期时间
      */
-    private String viptime;
+    private Date viptime;
 
     /**
      * 头像
@@ -64,7 +66,7 @@ public class User implements Serializable {
     /**
      * 状态:1=正常,0=冻结
      */
-    private Byte status;
+    private Integer status;
 
     /**
      * 余额
@@ -79,7 +81,7 @@ public class User implements Serializable {
     /**
      * 等级
      */
-    private Byte lv;
+    private Integer lv;
 
     /**
      * 上级ID
@@ -118,7 +120,7 @@ public class User implements Serializable {
     /**
      * 类别:0=临时,1=注册
      */
-    private Byte type;
+    private Integer type;
 
     /**
      * 连续签到次数
@@ -256,7 +258,7 @@ public class User implements Serializable {
      *
      * @return register_time - 注册时间
      */
-    public String getRegisterTime() {
+    public Date getRegisterTime() {
         return registerTime;
     }
 
@@ -265,8 +267,8 @@ public class User implements Serializable {
      *
      * @param registerTime 注册时间
      */
-    public void setRegisterTime(String registerTime) {
-        this.registerTime = registerTime == null ? null : registerTime.trim();
+    public void setRegisterTime(Date registerTime) {
+        this.registerTime = registerTime;
     }
 
     /**
@@ -274,7 +276,7 @@ public class User implements Serializable {
      *
      * @return last_time - 最后登录时间
      */
-    public String getLastTime() {
+    public Date getLastTime() {
         return lastTime;
     }
 
@@ -283,8 +285,8 @@ public class User implements Serializable {
      *
      * @param lastTime 最后登录时间
      */
-    public void setLastTime(String lastTime) {
-        this.lastTime = lastTime == null ? null : lastTime.trim();
+    public void setLastTime(Date lastTime) {
+        this.lastTime = lastTime;
     }
 
     /**
@@ -292,7 +294,7 @@ public class User implements Serializable {
      *
      * @return isvip_status - vip状态:1=是,0=否
      */
-    public Byte getIsvipStatus() {
+    public Integer getIsvipStatus() {
         return isvipStatus;
     }
 
@@ -301,7 +303,7 @@ public class User implements Serializable {
      *
      * @param isvipStatus vip状态:1=是,0=否
      */
-    public void setIsvipStatus(Byte isvipStatus) {
+    public void setIsvipStatus(Integer isvipStatus) {
         this.isvipStatus = isvipStatus;
     }
 
@@ -310,7 +312,7 @@ public class User implements Serializable {
      *
      * @return viptime - vip到期时间
      */
-    public String getViptime() {
+    public Date getViptime() {
         return viptime;
     }
 
@@ -319,8 +321,8 @@ public class User implements Serializable {
      *
      * @param viptime vip到期时间
      */
-    public void setViptime(String viptime) {
-        this.viptime = viptime == null ? null : viptime.trim();
+    public void setViptime(Date viptime) {
+        this.viptime = viptime;
     }
 
     /**
@@ -346,7 +348,7 @@ public class User implements Serializable {
      *
      * @return status - 状态:1=正常,0=冻结
      */
-    public Byte getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
@@ -355,7 +357,7 @@ public class User implements Serializable {
      *
      * @param status 状态:1=正常,0=冻结
      */
-    public void setStatus(Byte status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -400,7 +402,7 @@ public class User implements Serializable {
      *
      * @return lv - 等级
      */
-    public Byte getLv() {
+    public Integer getLv() {
         return lv;
     }
 
@@ -409,7 +411,7 @@ public class User implements Serializable {
      *
      * @param lv 等级
      */
-    public void setLv(Byte lv) {
+    public void setLv(Integer lv) {
         this.lv = lv;
     }
 
@@ -526,7 +528,7 @@ public class User implements Serializable {
      *
      * @return type - 类别:0=临时,1=注册
      */
-    public Byte getType() {
+    public Integer getType() {
         return type;
     }
 
@@ -535,7 +537,7 @@ public class User implements Serializable {
      *
      * @param type 类别:0=临时,1=注册
      */
-    public void setType(Byte type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
