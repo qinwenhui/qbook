@@ -50,4 +50,13 @@ public interface SysRoleService extends BaseService<SysRole> {
     * @Date: 2021/1/5
     */
     List<SysRole> getRoleByUser(Integer userId);
+
+    /**
+    * @Description: 批量添加用户角色
+    * @Param: [userId, ids]
+    * @return: boolean
+    * @Author: qinwh
+    * @Date: 2021/1/11
+    */
+    boolean addRoleByUserId(Integer userId, Integer[] roleIds);
 }

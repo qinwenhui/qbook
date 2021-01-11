@@ -1,5 +1,6 @@
 package cn.qinwh.qbookadmin.controller;
 
+import cn.qinwh.qbookadmin.bo.UpdateUser;
 import cn.qinwh.qbookadmin.bo.UserBo;
 import cn.qinwh.qbookadmin.service.UserService;
 import cn.qinwh.qbookadmin.vo.MenuVo;
@@ -132,6 +133,22 @@ public class AdminController {
     public ReturnMsg userList(@Valid UserBo bo){
         PageInfo<User> userPageInfo = userService.selectByBo(bo);
         return ReturnMsg.success("查询成功", userPageInfo);
+    }
+
+    /**
+    * @Description: 根据用户编号编辑用户
+    * @Param: [bo]
+    * @return: cn.qinwh.qbookcommon.utils.ReturnMsg
+    * @Author: qinwh
+    * @Date: 2021/1/11
+    */
+    @PostMapping("/updateUser")
+    public ReturnMsg updateUser(@Valid UpdateUser bo){
+        User user = new User();
+        user.setId(Integer.parseInt(bo.getId()));
+        user.setStatus(Byte.parseByte(bo.getStatus()));
+        userService.updateSelective(user);
+        return ReturnMsg.success("编辑成功", null);
     }
 
     /**

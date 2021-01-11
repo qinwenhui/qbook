@@ -38,6 +38,38 @@ public class SystemController {
     private SysPermissionService sysPermissionService;
 
     /**
+    * @Description: 批量添加用户角色
+    * @Param: [userId, roleIds]
+    * @return: cn.qinwh.qbookcommon.utils.ReturnMsg
+    * @Author: qinwh
+    * @Date: 2021/1/11
+    */
+    @PostMapping("/adduserroleall")
+    public ReturnMsg addUserRoleAll(Integer userId, String roleIds){
+        ReturnMsg validateResult = validateNull(userId, roleIds);
+        if(validateResult.getCode().equals(ReturnMsg.FAIL)){
+            return validateResult;
+        }
+        Integer[] ids = new Integer[0];
+        if(!"".equals(roleIds)){
+            String[] temp = roleIds.split(",");
+            ids = new Integer[temp.length];
+            for(int i=0;i<temp.length;i++){
+                try{
+                    ids[i] = Integer.parseInt(temp[i]);
+                }catch (NumberFormatException e){
+                    return ReturnMsg.fail("roleIds参数有误", null);
+                }
+            }
+        }
+        boolean ok = sysRoleService.addRoleByUserId(userId, ids);
+        if(ok){
+            return ReturnMsg.success("添加成功", null);
+        }
+        return ReturnMsg.fail("添加角色失败", null);
+    }
+    
+    /**
      * 角色列表查询
      * @param role
      * @param pageNo
@@ -224,7 +256,7 @@ public class SystemController {
      * @param menuIds
      * @return
      */
-    @GetMapping("/addrolemenuall")
+    @PostMapping("/addrolemenuall")
     public ReturnMsg addRoleMenuAll(Integer roleId, Integer[] menuIds){
         ReturnMsg validateResult = validateNull(roleId, menuIds);
         if(validateResult.getCode().equals(ReturnMsg.FAIL) || menuIds.length == 0){
@@ -280,7 +312,7 @@ public class SystemController {
      * @param menuIds
      * @return
      */
-    @GetMapping("/deleterolemenuall")
+    @PostMapping("/deleterolemenuall")
     public ReturnMsg deleteRoleMenuAll(Integer roleId, Integer[] menuIds){
         ReturnMsg validateResult = validateNull(roleId, menuIds);
         if(validateResult.getCode().equals(ReturnMsg.FAIL) || menuIds.length == 0){
@@ -336,7 +368,7 @@ public class SystemController {
      * @param permissionIds
      * @return
      */
-    @GetMapping("/addrolepermissionall")
+    @PostMapping("/addrolepermissionall")
     public ReturnMsg addRolePermissionAll(Integer roleId, String permissionIds){
         ReturnMsg validateResult = validateNull(roleId, permissionIds);
         if(validateResult.getCode().equals(ReturnMsg.FAIL)){
@@ -390,7 +422,7 @@ public class SystemController {
      * @param permissionIds
      * @return
      */
-    @GetMapping("/deleterolepermissionall")
+    @PostMapping("/deleterolepermissionall")
     public ReturnMsg deleteRolePermissionAll(Integer roleId, Integer[] permissionIds){
         ReturnMsg validateResult = validateNull(roleId, permissionIds);
         if(validateResult.getCode().equals(ReturnMsg.FAIL) || permissionIds.length == 0){

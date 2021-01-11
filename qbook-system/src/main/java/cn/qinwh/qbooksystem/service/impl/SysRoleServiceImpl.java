@@ -1,13 +1,7 @@
 package cn.qinwh.qbooksystem.service.impl;
 
-import cn.qinwh.qbooksystem.entity.SysMenu;
-import cn.qinwh.qbooksystem.entity.SysRole;
-import cn.qinwh.qbooksystem.entity.SysRoleMenu;
-import cn.qinwh.qbooksystem.entity.SysRolePermission;
-import cn.qinwh.qbooksystem.mapper.SysMenuMapper;
-import cn.qinwh.qbooksystem.mapper.SysRoleMapper;
-import cn.qinwh.qbooksystem.mapper.SysRoleMenuMapper;
-import cn.qinwh.qbooksystem.mapper.SysRolePermissionMapper;
+import cn.qinwh.qbooksystem.entity.*;
+import cn.qinwh.qbooksystem.mapper.*;
 import cn.qinwh.qbooksystem.service.SysRoleService;
 import cn.qinwh.mybatis.qservice.common.BaseServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +25,9 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
     private SysMenuMapper sysMenuMapper;
     @Autowired
     private SysRolePermissionMapper sysRolePermissionMapper;
+    @Autowired
+    private SysUserRoleMapper sysUserRoleMapper;
+
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -135,6 +132,48 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
     @Override
     public List<SysRole> getRoleByUser(Integer userId) {
         return sysRoleMapper.selectByUserId(userId);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean addRoleByUserId(Integer userId, Integer[] roleIds) {
+        try{
+            //先把所有的已存在的关联置为无效
+            Example example = new Example(SysUserRole.class);
+            example.createCriteria().andEqualTo("userId", userId);
+            SysUserRole sysUserRole = new SysUserRole();
+            sysUserRole.setStatus(1);
+            sysUserRoleMapper.updateByExampleSelective(sysUserRole, example);
+            //查询已经存在的关联关系
+            List<SysUserRole> userRoleList = sysUserRoleMapper.selectByExample(example);
+            for(Integer roleId: roleIds){
+                //先看看存不存在数据
+                SysUserRole isExist = null;
+                for(SysUserRole tmp: userRoleList){
+                    if(tmp.getRoleId().equals(roleId)){
+                        isExist = tmp;
+                        break;
+                    }
+                }
+                SysUserRole userRole = new SysUserRole();
+                userRole.setUserId(userId);
+                userRole.setRoleId(roleId);
+                userRole.setStatus(0);
+                if(isExist != null){
+                    //已经存在数据，只需要把状态改了
+                    userRole.setId(isExist.getId());
+                    sysUserRoleMapper.updateByPrimaryKeySelective(userRole);
+                }else{
+                    //不存在数据，生成
+                    sysUserRoleMapper.insertSelective(userRole);
+                }
+            }
+        }catch (Exception e){
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            log.error("添加用户角色失败{}", e.getMessage());
+            return false;
+        }
+        return true;
     }
 
     private void updateRoleMenuDeep(Integer roleId, Integer menuId){
