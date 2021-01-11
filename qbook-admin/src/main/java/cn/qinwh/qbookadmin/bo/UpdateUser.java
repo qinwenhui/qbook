@@ -20,4 +20,6 @@ public class UpdateUser {
 
     @Digits(integer = 1, fraction = 1, message = "状态必须为整数")
     private String status;
+
+    private String password;
 }

@@ -146,9 +146,16 @@ public class AdminController {
     public ReturnMsg updateUser(@Valid UpdateUser bo){
         User user = new User();
         user.setId(Integer.parseInt(bo.getId()));
-        user.setStatus(Byte.parseByte(bo.getStatus()));
-        userService.updateSelective(user);
-        return ReturnMsg.success("编辑成功", null);
+        if(StringUtils.isNotEmpty(bo.getStatus())){
+            user.setStatus(Byte.parseByte(bo.getStatus()));
+        }
+        if(StringUtils.isNotEmpty(bo.getPassword())){
+            user.setPassword(bo.getPassword());
+        }
+        if(userService.updateSelective(user) == 1){
+            return ReturnMsg.success("编辑成功", null);
+        }
+        return ReturnMsg.fail("编辑失败", null);
     }
 
     /**
