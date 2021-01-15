@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.qinwh.qbookapp.mapper.bookMapper">
+  <resultMap id="BaseResultMap" type="cn.qinwh.qbookapp.entity.book">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="lanmu_id" jdbcType="INTEGER" property="lanmuId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="sort" jdbcType="VARCHAR" property="sort" />
+    <result column="status" jdbcType="BIT" property="status" />
+    <result column="view" jdbcType="INTEGER" property="view" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="auther" jdbcType="VARCHAR" property="auther" />
+    <result column="author_id" jdbcType="INTEGER" property="authorId" />
+    <result column="mark" jdbcType="INTEGER" property="mark" />
+    <result column="ticai_id" jdbcType="INTEGER" property="ticaiId" />
+    <result column="duzhequn_id" jdbcType="INTEGER" property="duzhequnId" />
+    <result column="diyu_id" jdbcType="INTEGER" property="diyuId" />
+    <result column="mhstatus" jdbcType="BIT" property="mhstatus" />
+    <result column="tjswitch" jdbcType="BIT" property="tjswitch" />
+    <result column="isfree" jdbcType="BIT" property="isfree" />
+    <result column="cjid" jdbcType="VARCHAR" property="cjid" />
+    <result column="cjstatus" jdbcType="BIT" property="cjstatus" />
+    <result column="cjname" jdbcType="VARCHAR" property="cjname" />
+    <result column="keyword" jdbcType="VARCHAR" property="keyword" />
+    <result column="last_chapter_title" jdbcType="VARCHAR" property="lastChapterTitle" />
+    <result column="searchnums" jdbcType="INTEGER" property="searchnums" />
+    <result column="last_chapter" jdbcType="VARCHAR" property="lastChapter" />
+    <result column="isjingpin" jdbcType="BIT" property="isjingpin" />
+    <result column="xianmian" jdbcType="BIT" property="xianmian" />
+    <result column="cover" jdbcType="VARCHAR" property="cover" />
+    <result column="ishot" jdbcType="BIT" property="ishot" />
+    <result column="issole" jdbcType="BIT" property="issole" />
+    <result column="isnew" jdbcType="BIT" property="isnew" />
+    <result column="h" jdbcType="BIT" property="h" />
+    <result column="vipcanread" jdbcType="BIT" property="vipcanread" />
+    <result column="pingfen" jdbcType="VARCHAR" property="pingfen" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.qinwh.qbookapp.entity.book">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="desc" jdbcType="LONGVARCHAR" property="desc" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    id, title, lanmu_id, create_time, update_time, sort, status, view, image, type, auther, 
+    author_id, mark, ticai_id, duzhequn_id, diyu_id, mhstatus, tjswitch, isfree, cjid, 
+    cjstatus, cjname, keyword, last_chapter_title, searchnums, last_chapter, isjingpin, 
+    xianmian, cover, ishot, issole, isnew, h, vipcanread, pingfen
+  </sql>
+  <sql id="Blob_Column_List">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    desc
+  </sql>
+
+</mapper>
