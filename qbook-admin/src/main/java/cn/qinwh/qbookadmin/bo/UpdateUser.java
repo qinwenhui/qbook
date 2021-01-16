@@ -15,10 +15,10 @@ import javax.validation.constraints.NotNull;
 public class UpdateUser {
 
     @NotNull(message = "id不能为空")
-    @Digits(integer = 1, fraction = 1, message = "id必须为整数")
+    @Digits(integer = 10, fraction = 1, message = "id必须为整数")
     private String id;
 
-    @Digits(integer = 1, fraction = 1, message = "状态必须为整数")
+    @Digits(integer = 1, fraction = 1, message = "状态必须为一位整数")
     private String status;
 
     private String password;
