@@ -1,7 +1,7 @@
 package cn.qinwh.qbookapp.mapper;
 
-import cn.qinwh.qbookapp.entity.book;
+import cn.qinwh.qbookapp.entity.Book;
 import tk.mybatis.mapper.common.Mapper;
 
-public interface bookMapper extends Mapper<book> {
+public interface BookMapper extends Mapper<Book> {
 }
