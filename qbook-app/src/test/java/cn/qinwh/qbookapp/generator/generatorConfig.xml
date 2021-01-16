@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!-- 配置生成器 -->
+<generatorConfiguration>
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+
+        <!-- 增加实体类Serializable实现 -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+
+        <!--引入通用mapper的支持-->
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+            <property name="caseSensitive" value="true"/>
+        </plugin>
+
+        <!--引入通用service-->
+        <plugin type="cn.qinwh.mybatis.qservice.generator.ServicePlugin">
+            <property name="targetPackage" value="cn.qinwh.qbookapp.service"/>
+            <property name="targetProject" value="qbook-app/src/main/java"/>
+        </plugin>
+
+        <!-- 数据库链接URL，用户名、密码 nullCatalogMeansCurrent=true这个参数防止其他数据库同名表干扰-->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://121.36.100.130:3306/qbook?serverTimezone=UTC&amp;characterEncoding=utf-8&amp;nullCatalogMeansCurrent=true"
+                        userId="root"
+                        password="qinwenhui123!">
+        </jdbcConnection>
+
+        <!-- 类型转换 -->
+        <javaTypeResolver>
+            <!-- 是否使用BigDecimals，false可自动转化以下类型(Long Integer Short等) -->
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- 生成模型的包名和位置-->
+        <javaModelGenerator targetPackage="cn.qinwh.qbookapp.entity" targetProject="qbook-app/src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- 生成映射文件的包名和位置-->
+        <sqlMapGenerator targetPackage="mappers" targetProject="qbook-app/src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!-- 生成DAO的包名和位置 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="cn.qinwh.qbookapp.mapper" targetProject="qbook-app/src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名-->
+        <table tableName="q_book" domainObjectName="Book" enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+            <!-- 数据库表主键 -->
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+
+    </context>
+
+</generatorConfiguration>
