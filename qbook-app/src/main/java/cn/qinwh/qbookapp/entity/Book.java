@@ -5,7 +5,7 @@ import java.util.Date;
 import javax.persistence.*;
 
 @Table(name = "q_book")
-public class book implements Serializable {
+public class Book implements Serializable {
     /**
      * ID
      */
@@ -195,6 +195,7 @@ public class book implements Serializable {
     /**
      * 描述
      */
+    @Column(name = "`desc`")
     private String desc;
 
     private static final long serialVersionUID = 1L;
