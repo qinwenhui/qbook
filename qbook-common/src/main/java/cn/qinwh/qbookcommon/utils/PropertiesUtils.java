@@ -16,7 +16,8 @@ import java.util.Map;
 @Slf4j
 public class PropertiesUtils {
 
-    public static <T> T copy(Object src, T target, Class<T> targetType) {
+    public static <T> T copy(Object src, Class<T> targetType) {
+        T target = null;
         //默认属性名称相同时复制
         try {
             target = targetType.newInstance();
@@ -42,7 +43,8 @@ public class PropertiesUtils {
         return target;
     }
 
-    public static <T> T copy(Object src, T target, Class<T> targetType, Map<String, String> converter) {
+    public static <T> T copy(Object src, Class<T> targetType, Map<String, String> converter) {
+        T target = null;
         //默认属性名称相同时复制
         try {
             target = targetType.newInstance();

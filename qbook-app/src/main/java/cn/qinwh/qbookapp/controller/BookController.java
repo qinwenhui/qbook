@@ -33,9 +33,7 @@ public class BookController {
     @NoLogin
     public ReturnMsg info(Integer id){
         Book book = bookService.queryByPrimaryKey(id);
-        Map<String, String> converter = new HashMap<>();
-        converter.put("title", "type");
-        BookVo bookVo = PropertiesUtils.copy(book, new BookVo(), BookVo.class, converter);
+        BookVo bookVo = PropertiesUtils.copy(book, BookVo.class);
         return ReturnMsg.fail("查询成功", bookVo);
     }
 }
