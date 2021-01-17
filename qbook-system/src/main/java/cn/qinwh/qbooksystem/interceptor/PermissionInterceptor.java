@@ -8,7 +8,11 @@ import cn.qinwh.qbooksystem.entity.SysUser;
 import cn.qinwh.qbooksystem.service.SysPermissionService;
 import cn.qinwh.qbooksystem.utils.LoginUserUtils;
 import cn.qinwh.qbooksystem.utils.RedisUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.DependsOn;
@@ -22,6 +26,7 @@ import java.util.List;
 
 @Component
 @DependsOn
+@Slf4j
 public class PermissionInterceptor implements HandlerInterceptor {
 
     @Autowired
@@ -58,7 +63,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
             return false;
         }
         //获取该用户的所有权限地址
-        List<SysPermission> permissionList = sysPermissionService.getUserPermission(user.getId());
+        List<SysPermission> permissionList = getUserPermission(user.getId());
         //验证
         for(SysPermission permission : permissionList){
             if(url.equals(permission.getUrl())){
@@ -111,5 +116,25 @@ public class PermissionInterceptor implements HandlerInterceptor {
         ObjectMapper mapper=new ObjectMapper();
         String jsonStr = mapper.writeValueAsString(json);
         response.getWriter().write(jsonStr);
+    }
+
+    private List<SysPermission> getUserPermission(Integer userId) {
+        String cacheKey = "user-permission-" + String.valueOf(userId);
+        //先从redis获取
+        String json = RedisUtils.get(cacheKey);
+        //泛型反序列化
+        ObjectMapper mapper = new ObjectMapper();
+        JavaType javaType = mapper.getTypeFactory().constructCollectionType(List.class, SysPermission.class);
+        List<SysPermission> permissionList = null;
+        try {
+            permissionList = mapper.readValue(json, javaType);
+        } catch (Exception e) {
+            log.error("反序列化用户权限列表失败"+e.getMessage());
+        }
+        if(permissionList == null){
+            permissionList = sysPermissionService.getUserPermission(userId);
+            RedisUtils.set(cacheKey, permissionList, RedisConst.TOKEN_SAVE_TIME);
+        }
+        return permissionList;
     }
 }

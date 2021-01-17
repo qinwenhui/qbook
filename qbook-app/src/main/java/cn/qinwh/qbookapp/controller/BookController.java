@@ -35,7 +35,6 @@ public class BookController {
     private final ChapterService chapterService;
 
     @GetMapping("/info")
-    @NoLogin
     public ReturnMsg info(Integer id){
         Book book = bookService.queryByPrimaryKey(id);
         BookVo bookVo = PropertiesUtils.copy(book, BookVo.class);
