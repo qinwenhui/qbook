@@ -25,6 +25,11 @@ public class Swipe implements Serializable {
      */
     private String image;
 
+    /**
+     * 是否可见，0=不可见，1=可见
+     */
+    private Boolean visible;
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -93,5 +98,13 @@ public class Swipe implements Serializable {
      */
     public void setImage(String image) {
         this.image = image == null ? null : image.trim();
+    }
+
+    public Boolean getVisible() {
+        return visible;
+    }
+
+    public void setVisible(Boolean visible) {
+        this.visible = visible;
     }
 }

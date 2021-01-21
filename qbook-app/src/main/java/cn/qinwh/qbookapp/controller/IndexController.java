@@ -41,7 +41,9 @@ public class IndexController {
     */
     @GetMapping("/swipe")
     public ReturnMsg swipe(){
-        List<Swipe> swipes = swipeService.queryAll();
+        Swipe where = new Swipe();
+        where.setVisible(true);
+        List<Swipe> swipes = swipeService.queryListByWhere(where);
         return ReturnMsg.success("查询成功", swipes);
     }
 }

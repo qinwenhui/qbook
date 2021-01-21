@@ -9,11 +9,12 @@
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="visible" property="visible" jdbcType="BIT" />
   </resultMap>
   <sql id="Base_Column_List" >
     <!--
       WARNING - @mbg.generated
     -->
-    Id, type, url, image
+    Id, type, url, image, visible
   </sql>
 </mapper>
