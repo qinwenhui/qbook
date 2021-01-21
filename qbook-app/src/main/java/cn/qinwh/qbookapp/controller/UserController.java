@@ -1,5 +1,6 @@
 package cn.qinwh.qbookapp.controller;
 
+import cn.qinwh.qbookapp.bo.LoginBo;
 import cn.qinwh.qbookapp.service.UserService;
 import cn.qinwh.qbookcommon.utils.CharacterUtils;
 import cn.qinwh.qbookcommon.utils.ReturnMsg;
@@ -13,12 +14,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 /**
  * @program: qbook
@@ -43,11 +42,8 @@ public class UserController {
     */
     @PostMapping("/login")
     @NoLogin
-    public ReturnMsg login(HttpServletRequest request, String username, String password){
-        if(username == null || password == null){
-            return ReturnMsg.fail("账号或密码不能为空", null);
-        }
-        return userService.login(request, username, password);
+    public ReturnMsg login(HttpServletRequest request, @RequestBody @Valid LoginBo bo){
+        return userService.login(request, bo.getUsername(), bo.getPassword());
     }
 
     /**
@@ -59,7 +55,7 @@ public class UserController {
     */
     @PostMapping("/register")
     @NoLogin
-    public ReturnMsg register(HttpServletRequest request, String username, String password){
+    public ReturnMsg register(HttpServletRequest request, @RequestBody String username, @RequestBody String password){
         if(username == null || password == null){
             return ReturnMsg.fail("账号或密码不能为空", null);
         }

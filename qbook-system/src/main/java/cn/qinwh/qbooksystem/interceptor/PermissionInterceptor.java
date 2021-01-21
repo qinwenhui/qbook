@@ -133,7 +133,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
         }
         if(permissionList == null){
             permissionList = sysPermissionService.getUserPermission(userId);
-            RedisUtils.set(cacheKey, permissionList, RedisConst.TOKEN_SAVE_TIME);
+//            RedisUtils.set(cacheKey, permissionList, RedisConst.TOKEN_SAVE_TIME);
         }
         return permissionList;
     }
