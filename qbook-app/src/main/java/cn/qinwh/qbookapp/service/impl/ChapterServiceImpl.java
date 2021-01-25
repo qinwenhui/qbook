@@ -1,7 +1,9 @@
 package cn.qinwh.qbookapp.service.impl;
 
 import cn.qinwh.qbookapp.bo.ChapterListBo;
+import cn.qinwh.qbookapp.entity.Book;
 import cn.qinwh.qbookapp.entity.Chapter;
+import cn.qinwh.qbookapp.service.BookService;
 import cn.qinwh.qbookapp.service.ChapterService;
 import cn.qinwh.mybatis.qservice.common.BaseServiceImpl;
 import cn.qinwh.qbookapp.vo.ChapterVo;
@@ -12,14 +14,19 @@ import cn.qinwh.qbooksystem.entity.SysUser;
 import cn.qinwh.qbooksystem.utils.LoginUserUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 @Transactional(rollbackFor = {RuntimeException.class, Exception.class})
 public class ChapterServiceImpl extends BaseServiceImpl<Chapter> implements ChapterService {
+
+    private final BookService bookService;
+
     @Override
     public PageInfo<ChapterVo> queryChapterList(ChapterListBo bo) {
         PageHelper.startPage(Integer.parseInt(bo.getPageNo()), Integer.parseInt(bo.getPageSize()));
@@ -46,6 +53,13 @@ public class ChapterServiceImpl extends BaseServiceImpl<Chapter> implements Chap
             chapterVo.setContent(content);
             return ReturnMsg.success("查询成功", chapterVo);
         }else{
+            //该章节收费，先查看这本书是否限免
+            Book book = bookService.queryByPrimaryKey(chapter.getBookId());
+            if(book.getIsfree()){
+                //这本书限免
+                chapterVo.setContent(content);
+                return ReturnMsg.success("查询成功", chapterVo);
+            }
             //该章节收费，检查用户是否登录
             SysUser loginUser = LoginUserUtils.getLoginUser();
             if(loginUser == null){
