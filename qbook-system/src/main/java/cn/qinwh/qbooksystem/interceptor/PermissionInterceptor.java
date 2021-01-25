@@ -74,6 +74,8 @@ public class PermissionInterceptor implements HandlerInterceptor {
             if(url.equals(permission.getUrl())){
                 //可以访问,更新Redis中保存的token时效
                 RedisUtils.set(userToken, user, RedisConst.TOKEN_SAVE_TIME);
+                //更新权限缓存时效
+                RedisUtils.set(RedisConst.USER_PERMISSION + user.getId(), permissionList, RedisConst.TOKEN_SAVE_TIME);
                 //验证通过，将用户信息从redis拿出放到session方便后续使用
                 LoginUserUtils.setLoginUser(userToken, user);
                 return true;
@@ -124,7 +126,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
     }
 
     private List<SysPermission> getUserPermission(Integer userId) {
-        String cacheKey = "user-permission-" + String.valueOf(userId);
+        String cacheKey = RedisConst.USER_PERMISSION + String.valueOf(userId);
         //先从redis获取
         String json = RedisUtils.get(cacheKey);
         //泛型反序列化
@@ -137,8 +139,8 @@ public class PermissionInterceptor implements HandlerInterceptor {
             log.error("反序列化用户权限列表失败"+e.getMessage());
         }
         if(permissionList == null){
+            //从缓存获取失败就从数据库获取
             permissionList = sysPermissionService.getUserPermission(userId);
-//            RedisUtils.set(cacheKey, permissionList, RedisConst.TOKEN_SAVE_TIME);
         }
         return permissionList;
     }

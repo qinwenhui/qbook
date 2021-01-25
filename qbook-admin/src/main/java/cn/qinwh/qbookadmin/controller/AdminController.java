@@ -11,9 +11,11 @@ import cn.qinwh.qbooksystem.annotation.NoLogin;
 import cn.qinwh.qbooksystem.constant.RedisConst;
 import cn.qinwh.qbooksystem.entity.SysMenu;
 import cn.qinwh.qbookadmin.entity.User;
+import cn.qinwh.qbooksystem.entity.SysPermission;
 import cn.qinwh.qbooksystem.entity.SysRole;
 import cn.qinwh.qbooksystem.entity.SysUser;
 import cn.qinwh.qbooksystem.service.SysMenuService;
+import cn.qinwh.qbooksystem.service.SysPermissionService;
 import cn.qinwh.qbooksystem.service.SysRoleService;
 import cn.qinwh.qbooksystem.utils.LoginUserUtils;
 import cn.qinwh.qbooksystem.utils.RedisUtils;
@@ -51,6 +53,9 @@ public class AdminController {
     @Autowired
     @Qualifier("sysRoleServiceImpl")
     private SysRoleService sysRoleService;
+    @Autowired
+    @Qualifier("sysPermissionService")
+    private SysPermissionService sysPermissionService;
 
     /**
      * 获取菜单列表（没有进行路由格式化之前的原始数据）
@@ -180,6 +185,9 @@ public class AdminController {
         //生成redis
         String token = CharacterUtils.getRandomString(32);
         RedisUtils.set(token, user, RedisConst.TOKEN_SAVE_TIME);
+        //设置用户的权限到缓存
+        List<SysPermission> permissionList = sysPermissionService.getUserPermission(user.getId());
+        RedisUtils.set(RedisConst.USER_PERMISSION + user.getId(), permissionList, RedisConst.TOKEN_SAVE_TIME);
         return ReturnMsg.success("登录成功", token);
     }
 
@@ -194,6 +202,8 @@ public class AdminController {
     public ReturnMsg logout(){
         String userToken = LoginUserUtils.getToken();
         RedisUtils.delete(userToken);
+        //清除用户的权限缓存
+        RedisUtils.delete(RedisConst.USER_PERMISSION + LoginUserUtils.getLoginUser().getId());
         return ReturnMsg.custom(ReturnMsg.LOGIN_FALSE, "注销成功", userToken);
     }
 

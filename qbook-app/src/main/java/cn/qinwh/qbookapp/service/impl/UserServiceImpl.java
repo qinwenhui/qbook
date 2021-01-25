@@ -8,7 +8,9 @@ import cn.qinwh.qbookcommon.utils.ClientUtils;
 import cn.qinwh.qbookcommon.utils.ReturnMsg;
 import cn.qinwh.qbookcommon.utils.StringUtils;
 import cn.qinwh.qbooksystem.constant.RedisConst;
+import cn.qinwh.qbooksystem.entity.SysPermission;
 import cn.qinwh.qbooksystem.entity.SysUserRole;
+import cn.qinwh.qbooksystem.service.SysPermissionService;
 import cn.qinwh.qbooksystem.service.SysUserRoleService;
 import cn.qinwh.qbooksystem.utils.RedisUtils;
 import com.github.pagehelper.PageHelper;
@@ -31,6 +33,8 @@ import java.util.List;
 public class UserServiceImpl extends BaseServiceImpl<User> implements UserService {
 
     private final SysUserRoleService sysUserRoleService;
+
+    private final SysPermissionService sysPermissionService;
 
     @Override
     public ReturnMsg login(HttpServletRequest request, String username, String password) {
@@ -60,6 +64,9 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
         //生成redis
         String token = CharacterUtils.getRandomString(32);
         RedisUtils.set(token, user, RedisConst.TOKEN_SAVE_TIME);
+        //设置用户的权限到缓存
+        List<SysPermission> permissionList = sysPermissionService.getUserPermission(user.getId());
+        RedisUtils.set(RedisConst.USER_PERMISSION + user.getId(), permissionList, RedisConst.TOKEN_SAVE_TIME);
         return ReturnMsg.success("登录成功", token);
     }
 

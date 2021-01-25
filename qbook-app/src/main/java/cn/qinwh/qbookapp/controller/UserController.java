@@ -73,6 +73,8 @@ public class UserController {
     public ReturnMsg logout(){
         String userToken = LoginUserUtils.getToken();
         RedisUtils.delete(userToken);
+        //清除用户的权限缓存
+        RedisUtils.delete(RedisConst.USER_PERMISSION + LoginUserUtils.getLoginUser().getId());
         return ReturnMsg.custom(ReturnMsg.LOGIN_FALSE, "注销成功", userToken);
     }
 
