@@ -48,4 +48,12 @@ public class BookController {
         PageInfo<ChapterVo> result = chapterService.queryChapterList(bo);
         return ReturnMsg.success("查询成功", result);
     }
+
+    @GetMapping("/chapterList")
+    @NoLogin
+    public ReturnMsg getChapter(@Valid ChapterListBo bo){
+        //通过书籍编号获取该书籍的章节列表
+        PageInfo<ChapterVo> result = chapterService.queryChapterList(bo);
+        return ReturnMsg.success("查询成功", result);
+    }
 }
