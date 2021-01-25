@@ -39,17 +39,22 @@ public class PermissionInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         System.out.println("权限拦截器");
         String url = request.getServletPath();
+        //获取用户请求发送过来的token
+        String userToken = request.getHeader("Token");
         //免登录的接口地址
         List<String> noLoginPaths = noLoginStoreManager.getNoLoginPaths();
         for (String noLoginUrl : noLoginPaths){
             if(noLoginUrl.equals(url)){
                 //该url属于免登录的，直接放行
+                // 如果用户在访问这些放行接口时处于登录状态，那把登录用户放到线程里，方便放行的接口自行处理用户逻辑
+                if(userToken != null){
+                    SysUser user = RedisUtils.get(userToken, SysUser.class);
+                    LoginUserUtils.setLoginUser(userToken, user);
+                }
                 return true;
             }
         }
-        //获取用户请求发送过来的token
-        String userToken = request.getHeader("Token");
-        System.out.println("11111"+request.getServletPath()+" "+userToken);
+        //判断token
         if(userToken == null){
             //token无效,拒绝访问
             loginFalse(response);

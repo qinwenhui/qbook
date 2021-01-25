@@ -55,13 +55,6 @@ public class BookController {
     @GetMapping("/chapter")
     @NoLogin
     public ReturnMsg chapter(Integer id){
-        Chapter chapter = chapterService.queryByPrimaryKey(id);
-        if(chapter == null){
-            return ReturnMsg.fail("该章节不存在", null);
-        }
-        //读取文件
-        String content = FtpUtils.readFile(chapter.getContent());
-        chapter.setContent(content);
-        return ReturnMsg.success("查询成功", chapter);
+        return chapterService.getChapter(id);
     }
 }

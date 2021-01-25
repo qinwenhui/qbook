@@ -11,4 +11,21 @@ import lombok.Data;
 @Data
 public class ChapterVo {
 
+    private Integer id;
+
+    private String title;
+
+    private String content;
+
+    private String imagelist;
+
+    private String image;
+
+    private Boolean type;
+
+    private Integer bookId;
+
+    private String isvip;
+
+    private Integer score;
 }
