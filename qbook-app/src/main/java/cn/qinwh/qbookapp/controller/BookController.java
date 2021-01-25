@@ -2,10 +2,12 @@ package cn.qinwh.qbookapp.controller;
 
 import cn.qinwh.qbookapp.bo.ChapterListBo;
 import cn.qinwh.qbookapp.entity.Book;
+import cn.qinwh.qbookapp.entity.Chapter;
 import cn.qinwh.qbookapp.service.BookService;
 import cn.qinwh.qbookapp.service.ChapterService;
 import cn.qinwh.qbookapp.vo.BookVo;
 import cn.qinwh.qbookapp.vo.ChapterVo;
+import cn.qinwh.qbookcommon.utils.FtpUtils;
 import cn.qinwh.qbookcommon.utils.PropertiesUtils;
 import cn.qinwh.qbookcommon.utils.ReturnMsg;
 import cn.qinwh.qbooksystem.annotation.NoLogin;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
+import java.io.*;
 
 /**
  * @program: qbook
@@ -49,11 +52,16 @@ public class BookController {
         return ReturnMsg.success("查询成功", result);
     }
 
-    @GetMapping("/chapterList")
+    @GetMapping("/chapter")
     @NoLogin
-    public ReturnMsg getChapter(@Valid ChapterListBo bo){
-        //通过书籍编号获取该书籍的章节列表
-        PageInfo<ChapterVo> result = chapterService.queryChapterList(bo);
-        return ReturnMsg.success("查询成功", result);
+    public ReturnMsg chapter(Integer id){
+        Chapter chapter = chapterService.queryByPrimaryKey(id);
+        if(chapter == null){
+            return ReturnMsg.fail("该章节不存在", null);
+        }
+        //读取文件
+        String content = FtpUtils.readFile(chapter.getContent());
+        chapter.setContent(content);
+        return ReturnMsg.success("查询成功", chapter);
     }
 }

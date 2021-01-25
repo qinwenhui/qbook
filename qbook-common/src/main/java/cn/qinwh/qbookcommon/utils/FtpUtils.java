@@ -27,8 +27,8 @@ public class FtpUtils {
      * 测试
      */
      public static void main(String s[]) throws FileNotFoundException {
-         File file = new File("E://test.txt");
-         upload(new FileInputStream(file), file.getName());
+         File file = new File("D://qinwh/code/caiji/pro.txt");
+         upload(new FileInputStream(file), "/Uploads/book/"+file.getName());
      }
 
 
@@ -58,8 +58,6 @@ public class FtpUtils {
                 ftpClient.disconnect();
                 return null;
             }
-            //创建根目录
-            createDirecroty(ftpClient, baseDir);
         } catch (IOException e) {
             log.error("connect fail ------->>>",e);
             return null;
@@ -81,10 +79,14 @@ public class FtpUtils {
         }
 
         try {
+            //分离目标文件的目录和文件名
+            PathAndName pathAndName = getPathAndName(originName);
+            //创建目录
+            createDirecroty(ftpClient, pathAndName.getPath());
             //进入到文件保存的目录
-            ftpClient.changeWorkingDirectory(baseDir);
+            ftpClient.changeWorkingDirectory(pathAndName.getPath());
             //保存文件
-            Boolean isSuccess = ftpClient.storeFile(originName,inputStream);
+            Boolean isSuccess = ftpClient.storeFile(pathAndName.getName(),inputStream);
             if (!isSuccess){
                 log.error("{}---》上传失败！",originName);
             }else{
@@ -117,28 +119,28 @@ public class FtpUtils {
             return outputStream;
         }
         try {
-            ftpClient.changeWorkingDirectory(baseDir);
-            FTPFile[] ftpFiles = ftpClient.listFiles(baseDir);
+            //分离目标文件的目录和文件名
+            PathAndName pathAndName = getPathAndName(remoteFileName);
+            ftpClient.changeWorkingDirectory(pathAndName.getPath());
+            FTPFile[] ftpFiles = ftpClient.listFiles(pathAndName.getPath());
             Boolean flag = false;
             //遍历当前目录下的文件，判断是否存在待下载的文件
             for (FTPFile ftpFile:ftpFiles){
-                if (ftpFile.getName().equals(remoteFileName)){
+                if (ftpFile.getName().equals(pathAndName.getName())){
                     flag = true;
                     break;
                 }
             }
 
             if (!flag){
-                log.error("directory：{}下没有 {}",baseDir,remoteFileName);
+                log.error("directory：{}下没有 {}",pathAndName.getPath(),pathAndName.getName());
                 return outputStream;
             }
             //下载文件
-            Boolean isSuccess = ftpClient.retrieveFile(remoteFileName,outputStream);
+            Boolean isSuccess = ftpClient.retrieveFile(pathAndName.getName(),outputStream);
             if (!isSuccess){
-                log.error("download file 【{}】 fail",remoteFileName);
+                log.error("download file 【{}】 fail",pathAndName.getPath() + pathAndName.getName());
             }
-
-            log.info("download file success");
             ftpClient.logout();
         } catch (IOException e) {
             log.error("download file 【{}】 fail ------->>>",e);
@@ -150,19 +152,73 @@ public class FtpUtils {
                     log.error("disconnect fail ------->>>",e);
                 }
             }
-
-            if (outputStream != null){
-                try {
-                    outputStream.close();
-                } catch (IOException e) {
-                    log.error("outputStream close fail ------->>>",e);
-                }
-            }
         }
 
         return outputStream;
     }
 
+
+    public static InputStream download(String remoteFileName){
+        InputStream inputStream = null;
+        FTPClient ftpClient = connectFtpServer();
+        if (ftpClient == null){
+            return inputStream;
+        }
+        try {
+            //分离目标文件的目录和文件名
+            PathAndName pathAndName = getPathAndName(remoteFileName);
+            ftpClient.changeWorkingDirectory(pathAndName.getPath());
+            FTPFile[] ftpFiles = ftpClient.listFiles(pathAndName.getPath());
+            Boolean flag = false;
+            //遍历当前目录下的文件，判断是否存在待下载的文件
+            for (FTPFile ftpFile:ftpFiles){
+                if (ftpFile.getName().equals(pathAndName.getName())){
+                    flag = true;
+                    break;
+                }
+            }
+
+            if (!flag){
+                log.error("directory：{}下没有 {}",pathAndName.getPath(),pathAndName.getName());
+                return inputStream;
+            }
+            //下载文件
+            inputStream = ftpClient.retrieveFileStream(pathAndName.getName());
+            ftpClient.logout();
+        } catch (IOException e) {
+            log.error("download file 【{}】 fail ------->>>",e);
+        }finally {
+            if (ftpClient.isConnected()){
+                try {
+                    ftpClient.disconnect();
+                } catch (IOException e) {
+                    log.error("disconnect fail ------->>>",e);
+                }
+            }
+        }
+
+        return inputStream;
+    }
+
+    public static String readFile (String remoteFileName){
+        StringBuffer sb = new StringBuffer("");
+        try{
+            InputStream inputStream = download(remoteFileName);
+            if(inputStream == null){
+                log.info("该文件不存在:"+remoteFileName);
+                return null;
+            }
+            BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+            String line = "";
+            while((line=br.readLine())!=null){
+                sb.append(line);
+            }
+        }catch (Exception e){
+            log.error("文件读取错误", e);
+        }
+        return sb.toString();
+
+    }
     /**
     * @Description: 创建多层目录
     * @Param: [remote]
@@ -178,6 +234,52 @@ public class FtpUtils {
                 temp += "/"+dir;
                 ftpClient.makeDirectory(temp);
             }
+        }
+    }
+
+    //获取一个全文件名的路径和文件名
+    private static PathAndName getPathAndName(String remote){
+        String fileName = "";
+        String path = baseDir;
+        int index = 0;
+        if((index=remote.lastIndexOf("/")) != -1){
+            String tmp = remote.substring(0,index);
+            if(!"/".equals(tmp.substring(0,1))){
+                //如果这个目录前面没有“/”，则手动添加
+                path += ("/" + tmp);
+            }else{
+                path += tmp;
+            }
+            fileName = remote.substring(index+1);
+        }else{
+            fileName = remote;
+        }
+        return new PathAndName(path, fileName);
+    }
+
+    private static class PathAndName {
+        private String path;
+        private String name;
+
+        public PathAndName(String path, String name){
+            this.path = path;
+            this.name = name;
+        }
+
+        public String getPath() {
+            return path;
+        }
+
+        public void setPath(String path) {
+            this.path = path;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
         }
     }
 }
