@@ -38,10 +38,9 @@ public class BookController {
     private final ChapterService chapterService;
 
     @GetMapping("/info")
+    @NoLogin
     public ReturnMsg info(Integer id){
-        Book book = bookService.queryByPrimaryKey(id);
-        BookVo bookVo = PropertiesUtils.copy(book, BookVo.class);
-        return ReturnMsg.success("查询成功", bookVo);
+        return bookService.getBook(id);
     }
 
     @GetMapping("/chapterList")
