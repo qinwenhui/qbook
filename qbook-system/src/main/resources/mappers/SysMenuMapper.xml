@@ -26,6 +26,6 @@
 
   <!-- 通过角色编号查询该角色菜单 -->
   <select id="selectMenuByRole" resultType="cn.qinwh.qbooksystem.entity.SysMenu" parameterType="java.lang.Integer">
-    select t2.* from sys_role_menu t1 left join sys_menu t2 on (t1.menu_id=t2.id) where status = 0 and role_id = #{roleId}
+    select t2.* from sys_role_menu t1 inner join sys_menu t2 on (t1.menu_id=t2.id) where status = 0 and role_id = #{roleId}
   </select>
 </mapper>

@@ -6,16 +6,16 @@ spring:
   # 配置数据库
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://121.36.100.130:3306/qbook?serverTimezone=UTC&characterEncoding=utf-8
-    username: #秘密
-    password: #秘密
+    url: jdbc:mysql://rm-wz90dp4a3qj06ksj24o.mysql.rds.aliyuncs.com/qbook?serverTimezone=UTC&characterEncoding=utf-8
+    username: qbook
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
     #druid 数据源专有配置
     initialSize: 5   #初始化时建立物理连接的个数
     minIdle: 5    #最小连接池数量
     maxActive: 20   #最大连接池数量
-    maxWait: 60000    #获取连接时最大等待时间
-    timeBetweenEvictionRunsMillis: 60000    #Destory线程检测连接的间隔时间
+    maxWait: 6000    #获取连接时最大等待时间
+    timeBetweenEvictionRunsMillis: 6000    #Destory线程检测连接的间隔时间
     minEvictableIdleTimeMillis: 300000    #连接保持空闲而不被驱逐的最长时间
     validationQuery: SELECT 1 FROM DUAL    #检测连接是否有效的sql
     testWhileIdle: true

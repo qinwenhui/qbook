@@ -54,7 +54,7 @@ public class AdminController {
     @Qualifier("sysRoleServiceImpl")
     private SysRoleService sysRoleService;
     @Autowired
-    @Qualifier("sysPermissionService")
+    @Qualifier("sysPermissionServiceImpl")
     private SysPermissionService sysPermissionService;
 
     /**
